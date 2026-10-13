@@ -500,6 +500,44 @@ body.onb-start .blobs .b1{background:#F7E7C6!important;opacity:.6!important}
 body.onb-start .blobs .b2{background:#F1E2C8!important;opacity:.5!important}
 body.onb-start .blobs .b3{background:#FFF8EA!important;opacity:.7!important}
 :root[data-theme="ivory"] .b-th{color:#a8834f}
+/* ===== Final palette: Bright White + one soft cocoa accent (no gold, no yellow) ===== */
+:root[data-theme="ivory"]{--bg:#F4F5F0;--side:#F7F7F4;--card:#FFFFFE;--fg:#3d342d;--muted:#8f857b;--line:#E9E6DF;--line2:#DDD7CD;
+  --primary:#8A6F5A;--primary-h:#775e4b;--on-primary:#ffffff;--green:#F0EDE7;--green2:#E8E3DA;--avatar:#E8E1D7;--gold:#8A6F5A;
+  --glass:rgba(255,255,254,.8);--glass-line:rgba(255,255,255,.95);--panel:rgba(255,255,254,.92);
+  --blob-a:#ECE6DD;--blob-b:#F0EBE4;--blob-c:#E4DCD0;--dot:#dcd4c8;--red:#b0593f;--red-bg:#f5e4dc}
+:root[data-theme="ivory"] .blobs i{opacity:.6}
+:root[data-theme="ivory"] .b-hero{background:linear-gradient(150deg,#FFFFFE 0%,#F3F0EA 55%,#E7E0D6 100%)!important;box-shadow:0 14px 34px rgba(90,70,55,.10),0 0 0 1px rgba(221,215,205,.7) inset}
+:root[data-theme="ivory"] .b-hero:not(.has-cover):after{border-color:rgba(138,111,90,.14)}
+:root[data-theme="ivory"] .b-greet em{color:#8A6F5A}
+:root[data-theme="ivory"] .b-eb{color:#9a8676}
+:root[data-theme="ivory"] .b-av{border-color:#fff;background:#EDE7DE}
+:root[data-theme="ivory"] .b-next{background:rgba(255,255,255,.85)}
+:root[data-theme="ivory"] .b-tm{background:#8A6F5A}
+:root[data-theme="ivory"] .b-next .b-t2{color:#8f857b}
+:root[data-theme="ivory"] .b-prog{color:#6f645a}
+:root[data-theme="ivory"] .b-bar{background:#E8E3DA}:root[data-theme="ivory"] .b-bar i{background:#8A6F5A}
+:root[data-theme="ivory"] .b-seg button{background:#FFFFFE;color:#8f857b;box-shadow:0 0 0 1px #E9E6DF inset}
+:root[data-theme="ivory"] .b-seg button.on{background:#8A6F5A;color:#fff;box-shadow:none}
+:root[data-theme="ivory"] .b-card{background:#FFFFFE;box-shadow:0 1px 0 #E9E6DF,0 0 0 1px #EFECE6 inset}
+:root[data-theme="ivory"] .b-pill{background:#F0EDE7;color:#6f5b4b}
+:root[data-theme="ivory"] .b-th{color:#8A6F5A}
+@media (max-width:760px){
+  :root[data-theme="ivory"] .tabbar{background:rgba(255,255,254,.95)!important;box-shadow:0 10px 26px rgba(90,70,55,.12),0 0 0 1px #EEEBE5 inset!important}
+  :root[data-theme="ivory"] .tab{color:#9a8f84!important}
+  :root[data-theme="ivory"] .tab[aria-current="page"]{background:#EDE7DE!important;color:#3d342d!important}
+  :root[data-theme="ivory"] .tab[aria-current="page"] .ico{color:#3d342d!important}
+  :root[data-theme="ivory"] .tab.add{background:#8A6F5A!important;color:#fff!important}
+}
+body.onb-start{background:radial-gradient(90% 55% at 50% 15%,#EFEAE2 0%,transparent 70%),radial-gradient(80% 45% at 50% 100%,#ECE6DD 0%,transparent 70%),#F4F5F0 !important;color:#3d342d!important}
+body.onb-start .ring-logo{color:#8A6F5A}
+body.onb-start .ring-logo b,body.onb-start .onb-tag{color:#3d342d!important}
+body.onb-start .start-with,body.onb-start .onb-fine{color:#9a8f84!important}
+body.onb-start .btn.primary{background:#8A6F5A!important;color:#fff!important;border-color:#8A6F5A!important}
+body.onb-start .btn{background:#FFFFFE!important;color:#3d342d!important;border-color:#E2DCD2!important}
+body.onb-start .acct-face{background:#EDE7DE!important}
+body.onb-start .blobs .b1{background:#E9E2D8!important;opacity:.55!important}
+body.onb-start .blobs .b2{background:#EDE7DF!important;opacity:.5!important}
+body.onb-start .blobs .b3{background:#FFFFFF!important;opacity:.7!important}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
@@ -1002,7 +1040,7 @@ function renderTabbar(){
     tab('campaigns','campaigns',V().many,0,()=>{S.campStages=null;go('campaigns')}),tab('more','more','More',c.payments,moreMenu));
 }
 /* ---------- themes ---------- */
-const THEMES=[['ivory','Ivory','Bright vanilla and gold','#F4F5F0','#F6E9CF','#B8956A'],['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
+const THEMES=[['ivory','Ivory','Bright white and soft cocoa','#F4F5F0','#E8E1D7','#8A6F5A'],['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
 function applyTheme(t){const v=t||S.settings.theme||'ivory';const r=document.documentElement;if(v&&THEMES.some(x=>x[0]===v)){if(r.dataset.theme!==v)r.dataset.theme=v}else if(r.dataset.theme)delete r.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');if(m){const th=THEMES.find(x=>x[0]===v);m.content=th?th[3]:'#f3f3f1'}}
 function themePicker(cur,onPick){return h('div',{class:'theme-grid',role:'radiogroup','aria-label':'Theme'},THEMES.map(([k,l,d,bg,a,b])=>h('button',{type:'button',role:'radio','aria-checked':String(cur===k),class:'swatch'+(cur===k?' on':''),onclick:()=>onPick(k)},h('i',{style:'background:'+bg+';--a:'+a+';--b:'+b}),h('b',null,l),h('span',null,d))))}
 function photoRow(){if(!C.assets)return null;const st=S.settings,av=blobUrl(st.avatarId),cv=blobUrl(st.coverId);
@@ -1154,7 +1192,7 @@ function todayHero(greet){
   const upSub=nextIt?('Up next'+(nextIt.k==='routine'?' · routine':nextIt.x.campaignId?' · '+(S.campaigns.find(c=>c.id===nextIt.x.campaignId)||{}).brand:'')):later?'Up next · '+fmtDay(later.due):'Tap + to add something';
   const upOpen=()=>nextIt?(nextIt.k==='routine'?openRoutine(nextIt.x):openTask(nextIt.x)):later?openTask(later):quickAdd();
   const tab=S.todayTab||'today';
-  const PAL=[['#FBF1DE','#EBD3A8'],['#F7EEDF','#DCC4A0'],['#FCF4E4','#E2C08C'],['#F6EFE2','#D7BFA0'],['#FAF0DB','#E6CC9C']];
+  const PAL=[['#F3EFE9','#DCD3C7'],['#EFEAE3','#CFC3B4'],['#F5F1EC','#D8CABA'],['#F1ECE5','#C9BCAD'],['#F4F0EA','#D4C8BA']];
   const thumb=(k,ic)=>{const p=PAL.at(Math.abs([...String(k)].reduce((a,c)=>a+c.charCodeAt(0),0))%PAL.length);return h('div',{class:'b-th',style:'background:linear-gradient(135deg,'+p[0]+','+p[1]+')'},icon(ic))};
   const card=(key,ic,t1,t2,pill,pcls,fn)=>h('button',{class:'b-card',onclick:fn},thumb(key,ic),h('div',{class:'b-txt'},h('div',{class:'b-t1'},t1),h('div',{class:'b-t2'},t2)),pill?h('span',{class:'b-pill'+(pcls?' '+pcls:'')},pill):null);
   let list=[];
