@@ -1,19 +1,38 @@
 {
-  "name": "Creator Studio",
-  "short_name": "Creator Studio",
-  "description": "Brand deals, schedule, payments and contacts for content creators.",
+  "name": "Daylo",
+  "short_name": "Daylo",
+  "description": "Your week, your projects and your money, organized in one calm place.",
   "start_url": "./#today",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4efe7",
-  "theme_color": "#f4efe7",
+  "background_color": "#f3f3f1",
+  "theme_color": "#f3f3f1",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
   "shortcuts": [
-    { "name": "Schedule", "url": "./#schedule" },
-    { "name": "Campaigns", "url": "./#campaigns" }
+    {
+      "name": "Schedule",
+      "url": "./#schedule"
+    },
+    {
+      "name": "Projects",
+      "url": "./#campaigns"
+    }
   ]
 }

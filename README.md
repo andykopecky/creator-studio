@@ -1,4 +1,4 @@
-# Creator Studio
+# Daylo
 
 Brand deals, schedule, payments and contacts for creative freelancers.
 Installable web app: open the site and use "Add to Home Screen" / "Install app".

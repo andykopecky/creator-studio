@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Creator Studio: brand deals, schedule, payments and contacts for content creators.">
+<meta name="description" content="Daylo: your week, your projects and your money, organized in one calm place.">
 <meta name="theme-color" content="#f3f3f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Creator Studio">
+<meta name="apple-mobile-web-app-title" content="Daylo">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -18,10 +18,10 @@ body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
 </style>
-<title>Creator Studio</title>
+<title>Daylo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap">
 <style>
 /* Layout: airy, near-white workspace; Today opens on one big number and a dotted progress ring, then soft frosted cards. Ink black, soft greys, two pastel blurs. */
 :root{
@@ -156,6 +156,76 @@ a{color:var(--primary)}
 .glass-card p{font-size:13px;color:var(--muted);max-width:28ch}
 .glass-card .plus{position:absolute;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 4px 14px rgba(20,20,20,.08)}
 @media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr);gap:18px}.hero-top h1{font-size:40px}.ring{width:200px;height:200px;margin:4px auto}.big{font-size:64px}.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini button:last-child{grid-column:1/-1}.glass-row{grid-template-columns:minmax(0,1fr)}.glass-card{min-height:132px}}
+/* day view and cards, inspired by a calm booking-app look */
+.dayv{display:flex;flex-direction:column;gap:14px}
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dhead h2{font:400 34px/1.05 var(--f-display);letter-spacing:-.01em}
+.mpill{display:inline-flex;align-items:center;gap:2px;background:var(--card);border-radius:999px;padding:4px;box-shadow:0 1px 0 var(--line)}
+.mpill span{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;padding:0 4px;white-space:nowrap}.mpill .ico{width:15px;height:15px}
+.mpill button{border:0;background:none;width:28px;height:28px;border-radius:50%;font-size:18px;line-height:1;cursor:pointer;color:var(--fg)}
+.mpill button:hover{background:var(--green)}
+.roundadd{width:44px;height:44px;border-radius:50%;border:0;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;cursor:pointer;flex:none}.roundadd .ico{width:20px;height:20px}
+.dstrip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.dpill{border:0;background:var(--card);border-radius:22px;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;color:var(--fg);font:inherit;min-width:0}
+.dpill .dw{font-size:12px;color:var(--muted)}.dpill b{font-size:19px;font-weight:600;line-height:1.25}.dpill .dn{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dpill.is-today:not(.on) b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.dpill.on{background:var(--primary);color:var(--on-primary)}.dpill.on .dw{color:rgba(255,255,255,.7)}.dpill.on .dn{color:#e9d97a}
+:root[data-theme="night"] .dpill.on .dw{color:rgba(0,0,0,.6)}:root[data-theme="night"] .dpill.on .dn{color:#7a6512}
+.tline{display:flex;flex-direction:column;gap:10px}
+.trow{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;align-items:start}
+.tcol{padding-top:12px;display:flex;flex-direction:column;line-height:1.15}.tcol b{font-size:15px;font-weight:600}.tcol span{font-size:11.5px;color:var(--muted)}
+.tcard{background:var(--card);border-radius:22px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:9px;cursor:pointer;text-align:left;box-shadow:0 1px 0 var(--line)}
+.tcard:hover{box-shadow:0 6px 18px rgba(20,20,20,.07)}
+.tcard.is-done .tt{text-decoration:line-through;color:var(--muted)}
+.tcard-top{display:flex;gap:10px;align-items:center}
+.tico{width:36px;height:36px;border-radius:50%;background:var(--green);display:grid;place-items:center;flex:none}.tico .ico{width:17px;height:17px}
+.tt{font-weight:600;font-size:15px;line-height:1.25}.ts{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tcheck{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line2);background:none;display:grid;place-items:center;cursor:pointer;flex:none;color:var(--on-primary);padding:0}
+.tcheck.on{background:var(--primary);border-color:var(--primary)}.tcheck .ico{width:15px;height:15px}
+.tcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tmeta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tav{width:22px;height:22px;border-radius:50%;background:var(--avatar);display:grid;place-items:center;font-size:9.5px;font-weight:700;color:var(--fg);flex:none}
+.spill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--green2);color:var(--fg);white-space:nowrap}
+.spill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.spill.due::before{background:#7fae74}.spill.work::before{background:#c9a35b}.spill.routine::before{background:#a993d6}
+.spill.late{background:#d9896b;color:#fff}.spill.late::before{display:none}
+.spill.done{background:var(--primary);color:var(--on-primary)}.spill.done::before{display:none}
+.tslot{border:1.5px dashed var(--line2);background:none;border-radius:22px;padding:14px;display:flex;align-items:center;gap:8px;color:var(--muted);font:500 14px var(--f-body);cursor:pointer;text-align:left}
+.tslot .ico{width:16px;height:16px}
+.ncards{display:flex;flex-direction:column;gap:10px}
+.ncards .tcard{box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
+.nset{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:20px;background:var(--green)}
+.nset .grow p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+:root[data-theme="ivory"]{--bg:#f3efe8;--side:#f6f2ec;--card:#fbf9f5;--fg:#2e2823;--muted:#988c80;--line:#e9e2d7;--line2:#ddd3c5;
+  --primary:#6b5d52;--primary-h:#5a4e44;--on-primary:#fbf9f5;--green:#efe9df;--green2:#e8e0d3;--avatar:#e8dfd2;--amber:#f2e6d2;--amber-fg:#7d5f2c;--gift:#efe3df;--gift-fg:#7a5048;
+  --glass:rgba(251,249,245,.62);--glass-line:rgba(255,253,249,.9);--panel:rgba(251,249,245,.84);--blob-a:#eadfcd;--blob-b:#e6ddd0;--blob-c:#efe6d8;--dot:#d3c7b6;--cv-a:#eadfce;--cv-b:#e3d9ca;
+  --red:#b0593f;--red-bg:#f3e1d8;--gold:#b29874;--f-display:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--f-body:"Jost","Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;--f-head:"Jost","Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;color-scheme:light}
+:root[data-theme="ivory"] body{letter-spacing:.005em}
+:root[data-theme="ivory"] .hero-top h1,:root[data-theme="ivory"] .onb-h,:root[data-theme="ivory"] .dhead h2,:root[data-theme="ivory"] .page-head h1{font-family:var(--f-display);font-weight:300}
+:root[data-theme="ivory"] .greet-a{color:var(--gold);font-style:italic}
+:root[data-theme="ivory"] .dpill.on .dn{color:#e8d3ad}
+:root[data-theme="ivory"] .tab.plus .ico{background:var(--gold);border-color:var(--gold);color:#fff}
+:root[data-theme="ivory"] .spill.due::before{background:#9bab7f}
+:root[data-theme="ivory"] .eyebrow{color:var(--gold)}
+.greet{font:300 46px/1.02 var(--f-display)}
+.greet-a{font-style:italic}
+.eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+/* welcome screen: mocha, thin ring logo, pill buttons (any theme) */
+body.onb-start{background:radial-gradient(120% 80% at 50% 0%,#8a7a6c 0%,#6b5d52 45%,#4f443c 100%) fixed;color:#f6f1ea}
+body.onb-start .blobs{display:none}
+body.onb-start .onb-lead,body.onb-start .small.muted,body.onb-start .muted{color:rgba(246,241,234,.72)!important}
+body.onb-start .onb-title{color:#f6f1ea}
+body.onb-start .btn{background:rgba(255,255,255,.08);color:#f6f1ea;border:1px solid rgba(246,241,234,.38);backdrop-filter:blur(8px)}
+body.onb-start .btn.primary{background:#f6f1ea;color:#4f443c;border-color:#f6f1ea}
+body.onb-start .btn.ghost{border-color:transparent;background:none}
+body.onb-start .acct{background:rgba(255,255,255,.08);border-color:rgba(246,241,234,.22);color:#f6f1ea}
+body.onb-start .acct .grow span,body.onb-start .acct-go{color:rgba(246,241,234,.7)}
+body.onb-start .acct-face{background:rgba(255,255,255,.16);color:#f6f1ea}
+body.onb-start .top-right,body.onb-start .side{display:none!important}
+.ring-logo{width:150px;height:150px;position:relative;display:grid;place-items:center;color:currentColor}
+.ring-logo svg{position:absolute;inset:0;width:100%;height:100%}
+.ring-logo b{font:400 22px var(--f-body,sans-serif);letter-spacing:.42em;margin-left:.42em;font-family:"Jost",var(--f-body)}
+.onb-tag{font:300 28px/1.2 "Cormorant Garamond",var(--f-display);font-style:italic;max-width:18ch;text-align:center;margin:0}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
 :root[data-theme="beige"]{--bg:#f3ede3;--side:#f8f3ea;--card:#fffcf6;--line:#e9e0d1;--line2:#ddd1bf;--muted:#8d8273;--avatar:#e9dfcd;--green:#efe7da;--green2:#e7dccb;--glass:rgba(255,251,243,.6);--glass-line:rgba(255,250,240,.9);--panel:rgba(255,251,244,.8);--blob-a:#ecd3b4;--blob-b:#e3d5bd;--blob-c:#f2e2cb;--dot:#d3c6b2;--cv-a:#efdcc4;--cv-b:#e6dcc9;color-scheme:light}
@@ -172,6 +242,20 @@ a{color:var(--primary)}
 .onb-photo{width:116px;height:116px;border-radius:50%;border:2px dashed var(--line2);background:var(--card);display:grid;place-items:center;overflow:hidden;cursor:pointer;padding:0;margin:4px auto 0;color:var(--muted);font:500 13px var(--f-body)}
 .onb-photo img{width:100%;height:100%;object-fit:cover}
 @media (max-width:420px){.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.onb-cover{width:100%;height:120px;border-radius:20px;border:2px dashed var(--line2);background:var(--card) center/cover no-repeat;display:grid;place-items:center;cursor:pointer;color:var(--muted);font:500 13px var(--f-body);padding:0}
+.onb-cover[style*="background-image"]{border-style:solid;border-color:transparent}
+.onb-photo.sm{width:64px;height:64px;margin:0;flex:none}.onb-cover.sm{width:96px;height:64px;border-radius:14px;flex:none}
+.photo-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.photo-cell{display:flex;gap:12px;align-items:center}
+@media (max-width:520px){.photo-row{grid-template-columns:1fr}}
+.acct-list{display:flex;flex-direction:column;gap:8px;width:100%;max-width:340px}
+.acct{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:20px;border:1px solid var(--glass-line);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;text-align:left;font:inherit;color:var(--fg)}
+.acct .grow{display:flex;flex-direction:column;min-width:0}.acct .grow span{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-go{font-size:22px;color:var(--muted)}
+.acct-face{width:42px;height:42px;border-radius:50%;background:var(--avatar);display:grid;place-items:center;overflow:hidden;flex:none;font:400 18px var(--f-display)}
+.acct-face img,.onb-photo img{width:100%;height:100%;object-fit:cover}
+.acct-face.big{width:96px;height:96px;font-size:38px;margin:0 auto}
+.pw-row{display:flex;gap:8px;align-items:center}.pw-row .input{flex:1;min-width:0}
 .onb .side,.onb .tabbar{display:none!important}
 .onb .app{grid-template-rows:minmax(0,1fr)!important}
 .onb .main{padding-bottom:0!important}
@@ -369,15 +453,18 @@ textarea.input{resize:vertical;min-height:90px;line-height:1.5}
   .m-only{display:inline-flex}
   .side .mark{display:none}
   .main{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
-  .tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-line);border-radius:999px;padding:6px;box-shadow:0 10px 30px rgba(20,20,20,.12)}
+  .tabbar{display:flex;justify-content:space-between;align-items:center;position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-line);border-radius:999px;padding:6px;box-shadow:0 10px 30px rgba(20,20,20,.12)}
   .side{background:transparent;border-bottom:0}
-  .tab{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;position:relative;border-radius:10px}
+  .tab{border:0;background:none;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;padding:12px;font-size:13.5px;font-weight:600;color:var(--fg);cursor:pointer;position:relative;border-radius:999px;min-width:0}
+  .tab .lbl{display:none}
+  .tab[aria-current="page"]{background:var(--primary);color:var(--on-primary);padding:12px 16px}
+  .tab[aria-current="page"] .lbl{display:inline}
   .tab .ico{width:22px;height:22px}
-  .tab[aria-current="page"]{color:var(--fg)}
-  .tab[aria-current="page"] .ico{color:var(--primary)}
-  .tab .count{position:absolute;top:2px;left:calc(50% + 6px);font-size:10.5px;font-weight:700;background:var(--red);color:#fff;border-radius:10px;padding:0 5px;line-height:16px}
-  .tab.plus .ico{width:46px;height:46px;padding:12px;border-radius:50%;background:var(--primary);color:var(--on-primary);box-shadow:0 6px 16px rgba(20,20,20,.2)}
-  .tab.plus{justify-content:center}
+  .tab[aria-current="page"] .ico{color:var(--on-primary)}
+  .tab .count{position:absolute;top:8px;right:8px;width:8px;height:8px;font-size:0;background:#d9896b;border-radius:50%;padding:0;border:1.5px solid var(--card)}
+  .tab[aria-current="page"] .count{top:6px;right:6px}
+  .tab.plus{padding:4px}
+  .tab.plus .ico{width:40px;height:40px;padding:10px;border-radius:50%;border:1.5px solid var(--line2);color:var(--fg)}
   .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .page{padding-inline:16px;padding-block:20px 32px;gap:18px}
   .page-head .row .btn{flex:1;justify-content:center}
@@ -495,7 +582,7 @@ function myName(){return S.settings.name||''}
 const S={routines:[],campaigns:[],tasks:[],invoices:[],contacts:[],sent:[],settings:{},ready:{},
   lists:{unread:{threads:[],loading:true,error:null,key:'',unsub:null,at:null},deals:{threads:[],loading:true,error:null,key:'',unsub:null,at:null},inbox:{threads:[],loading:true,error:null,key:'',unsub:null,at:null}},
   inboxTab:'deals',inboxQ:'',thread:{id:null,data:null,loading:false,error:null},
-  gmailStatus:'checking',gmailPerm:null,dbStatus:'checking',aiOk:null,showDone:false,schedView:'week',weekOffset:0};
+  gmailStatus:'checking',gmailPerm:null,dbStatus:'checking',aiOk:null,showDone:false,schedView:'day',dayPick:null,weekOffset:0};
 const C={db:null,user:null,mcp:null,sample:null,perms:null,assets:null};
 let base=null,settingsRef=null;
 let page=(location.hash||'').replace('#','')||'today';
@@ -540,7 +627,7 @@ async function allowGmail(){
 function canSend(){return !!C.mcp&&S.gmailPerm!=='denied'&&S.gmailStatus!=='missing'&&S.gmailStatus!=='reauth'}
 function gmailHelp(compact){
   let title,text,btn=null;
-  if(!C.mcp){title='This window can\'t reach your Gmail';text='Open Creator Studio from claude.ai in a web browser or in the Claude desktop app, signed in as the account that has Gmail connected. The Gmail connection doesn\'t work in previews or shared links.'}
+  if(!C.mcp){title='This window can\'t reach your Gmail';text='Open Daylo from claude.ai in a web browser or in the Claude desktop app, signed in as the account that has Gmail connected. The Gmail connection doesn\'t work in previews or shared links.'}
   else if(S.gmailStatus==='missing'){title='Gmail isn\'t connected to Claude';text='In claude.ai go to Settings → Connectors, connect Gmail, then reload this page.'}
   else if(S.gmailStatus==='reauth'){title='Your Gmail connection expired';text='In claude.ai go to Settings → Connectors and reconnect Gmail, then reload this page.'}
   else if(S.gmailPerm==='denied'){title='Gmail is switched off for this app';text='Turn it back on to send from here.';btn=h('button',{class:'btn sm primary',type:'button',onclick:allowGmail},'Turn Gmail on')}
@@ -623,26 +710,30 @@ function quickAdd(){openSheet('Add',[['schedule','Task','Something to do, with a
 function moreMenu(){const c=counts();openSheet('More',[['inbox','Email',null,()=>go('inbox')],['payments','Payments',c.payments?c.payments+' overdue':null,()=>go('payments')],['contacts','Contacts',null,()=>go('contacts')],['bell','Notifications',notifications().length+' to look at',openNotifications],['settings','Settings',null,()=>go('settings')]])}
 function renderTabbar(){
   const c=counts();const cur=['today','schedule','campaigns'].includes(page)?page:'more';
-  const tab=(k,ic,l,n,fn)=>h('button',{class:'tab','aria-current':cur===k?'page':null,onclick:fn},icon(ic),l,n?h('span',{class:'count'},n):null);
+  const tab=(k,ic,l,n,fn)=>h('button',{class:'tab','aria-current':cur===k?'page':null,'aria-label':l+(n?', '+n+' need attention':''),onclick:fn},icon(ic),h('span',{class:'lbl'},l),n?h('span',{class:'count'},n):null);
   $('#tabbar').replaceChildren(tab('today','today','Today',0,()=>{S.campStages=null;S.invFilter=null;go('today')}),tab('schedule','schedule','Schedule',c.schedule,()=>go('schedule')),
     h('button',{class:'tab plus','aria-label':'Add something',onclick:quickAdd},icon('plus')),
     tab('campaigns','campaigns',V().many,0,()=>{S.campStages=null;go('campaigns')}),tab('more','more','More',c.payments,moreMenu));
 }
 /* ---------- themes ---------- */
-const THEMES=[['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
-function applyTheme(t){const v=t||S.settings.theme;const r=document.documentElement;if(v&&THEMES.some(x=>x[0]===v)){if(r.dataset.theme!==v)r.dataset.theme=v}else if(r.dataset.theme)delete r.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');if(m){const th=THEMES.find(x=>x[0]===v);m.content=th?th[3]:'#f3f3f1'}}
+const THEMES=[['ivory','Ivory','Cream and mocha, calm','#f3efe8','#e7dccb','#b29874'],['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
+function applyTheme(t){const v=t||S.settings.theme||'ivory';const r=document.documentElement;if(v&&THEMES.some(x=>x[0]===v)){if(r.dataset.theme!==v)r.dataset.theme=v}else if(r.dataset.theme)delete r.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');if(m){const th=THEMES.find(x=>x[0]===v);m.content=th?th[3]:'#f3f3f1'}}
 function themePicker(cur,onPick){return h('div',{class:'theme-grid',role:'radiogroup','aria-label':'Theme'},THEMES.map(([k,l,d,bg,a,b])=>h('button',{type:'button',role:'radio','aria-checked':String(cur===k),class:'swatch'+(cur===k?' on':''),onclick:()=>onPick(k)},h('i',{style:'background:'+bg+';--a:'+a+';--b:'+b}),h('b',null,l),h('span',null,d))))}
-function lookPanel(){const cur=S.settings.theme||'colorful';return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your look')),h('div',{class:'panel-body form'},themePicker(cur,k=>{applyTheme(k);saveSettings({theme:k}).then(()=>renderMain()).catch(e=>toast(dbErrCopy(e)))})))}
+function photoRow(){if(!C.assets)return null;const st=S.settings,av=blobUrl(st.avatarId),cv=blobUrl(st.coverId);
+  return h('div',{class:'photo-row'},
+    h('div',{class:'photo-cell'},h('button',{type:'button',class:'onb-photo sm',onclick:()=>pickImage('avatar'),'aria-label':av?'Change your photo':'Add your photo'},av?h('img',{src:av,alt:'Your photo'}):h('span',null,icon('plus'))),h('div',null,h('b',null,'Your photo'),h('div',{class:'row',style:'gap:6px;margin-top:6px'},h('button',{type:'button',class:'btn sm',onclick:()=>pickImage('avatar')},av?'Change':'Add photo'),av?h('button',{type:'button',class:'btn sm ghost',onclick:()=>removeImage('avatar')},'Remove'):null))),
+    h('div',{class:'photo-cell'},h('button',{type:'button',class:'onb-cover sm',onclick:()=>pickImage('cover'),style:cv?'background-image:url("'+cv+'")':'','aria-label':cv?'Change cover photo':'Add cover photo'},cv?null:h('span',null,icon('plus'))),h('div',null,h('b',null,'Cover photo'),h('div',{class:'row',style:'gap:6px;margin-top:6px'},h('button',{type:'button',class:'btn sm',onclick:()=>pickImage('cover')},cv?'Change':'Add cover'),cv?h('button',{type:'button',class:'btn sm ghost',onclick:()=>removeImage('cover')},'Remove'):null))))}
+function lookPanel(){const cur=S.settings.theme||'ivory';return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your look')),h('div',{class:'panel-body form'},photoRow(),themePicker(cur,k=>{applyTheme(k);saveSettings({theme:k}).then(()=>renderMain()).catch(e=>toast(dbErrCopy(e)))})))}
 function renderSide(){
   applyTheme();
   try{renderTabbar()}catch(e){console.error(e)}
   const c=counts();
-  const nn=notifications().length;try{document.title=(nn?'('+nn+') ':'')+'Creator Studio'}catch{}
+  const nn=notifications().length;try{document.title=(nn?'('+nn+') ':'')+'Daylo'}catch{}
   const needAllow=C.mcp&&S.gmailPerm&&S.gmailPerm!=='granted'&&S.gmailStatus!=='ok'&&S.gmailStatus!=='missing'&&S.gmailStatus!=='reauth';
   const gs={compose:['ok','Emails open in your Gmail'],ok:['ok','Gmail connected'],checking:['','Checking Gmail…'],unknown:['warn','Gmail asks on first use'],reauth:['bad','Reconnect Gmail'],missing:['bad','Gmail not connected'],none:['bad','Gmail unavailable here']}[S.gmailStatus]||['','Gmail'];
   const ds={device:['ok','Saved on this device'],db:['ok','Saving to your account'],memory:['warn','Not saving: open in Claude'],checking:['','Loading your data…']}[S.dbStatus]||['',''];
   $('#side').replaceChildren(
-    h('div',{class:'brand'},h('div',{class:'mark'},S.settings.avatarId?h('img',{src:blobUrl(S.settings.avatarId),alt:''}):initials(myName()||'Creator Studio')),h('div',{class:'grow'},h('b',null,'Creator Studio'),h('span',null,myName()||'Brand deals, in one place'))),
+    h('div',{class:'brand'},h('div',{class:'mark'},S.settings.avatarId?h('img',{src:blobUrl(S.settings.avatarId),alt:''}):initials(myName()||'Daylo')),h('div',{class:'grow'},h('b',null,'Daylo'),h('span',null,myName()||'Brand deals, in one place'))),
     h('nav',{class:'nav','aria-label':'Sections'},NAV.map(([k,l])=>h('button',{'aria-current':page===k?'page':null,onclick:()=>{S.campStages=null;S.invFilter=null;go(k)}},icon(k),k==='campaigns'?V().title:l,c[k]?h('span',{class:'count'},c[k]):null))),
     h('div',{class:'side-foot'},installEvt?h('button',{class:'btn sm primary',onclick:installApp},icon('plus'),'Install app'):null,
       needAllow?h('button',{class:'btn sm primary',onclick:allowGmail},icon('mail'),'Allow Gmail'):h('div',{class:'status-line'},h('span',{class:'dot '+gs[0]}),gs[1]),
@@ -667,10 +758,12 @@ function notifications(){
 }
 function openNotifications(){
   const list=notifications();
-  const body=list.length?h('div',{class:'list panel'},list.map(n=>h('div',{class:'item click',role:'button',tabindex:'0',onclick:()=>{n.act()},onkeydown:e=>{if(e.key==='Enter')n.act()}},
-    h('span',{class:'pill '+(n.lvl||'plain'),style:'margin-top:2px'},n.tag),h('div',{class:'grow'},h('div',{class:'t'},n.title),h('div',{class:'sub'},n.sub))))):
+  const NI={Overdue:'alert',Today:'today',Tomorrow:'schedule',Payment:'payments','Content due':'campaigns',Routine:'refresh','Unread email':'mail'};
+  const body=list.length?h('div',{class:'ncards'},list.map(n=>h('div',{class:'tcard',role:'button',tabindex:'0',onclick:()=>{n.act()},onkeydown:e=>{if(e.key==='Enter')n.act()}},
+    h('div',{class:'tcard-top'},h('span',{class:'tico'},icon(NI[n.tag]||'bell')),h('div',{class:'grow'},h('div',{class:'tt'},n.title),h('div',{class:'ts'},n.sub))),
+    h('div',{class:'tcard-foot'},h('span',{class:'spill '+(n.lvl==='red'?'late':n.lvl==='amber'?'due':'routine')},n.tag))))):
     emptyState('You\'re all caught up','Overdue tasks, things due today or tomorrow, late payments and unread emails show up here.');
-  openDrawer('Notifications',h('div',{class:'form'},body,h('p',{class:'small muted'},'Check Today’s plan each morning so nothing slips.')),[h('button',{class:'btn',onclick:()=>{closeDrawer();go('schedule')}},'Open schedule'),h('button',{class:'btn ghost',onclick:closeDrawer},'Close')],{noFocus:true});
+  openDrawer('Notifications',h('div',{class:'form'},typeof notifSetup==='function'?notifSetup():null,body,typeof notifSetup==='function'?null:h('p',{class:'small muted'},'Check Today’s plan each morning so nothing slips.')),[h('button',{class:'btn',onclick:()=>{closeDrawer();go('schedule')}},'Open schedule'),h('button',{class:'btn ghost',onclick:closeDrawer},'Close')],{noFocus:true});
 }
 
 /* ---------- shared bits ---------- */
@@ -783,8 +876,8 @@ function todayHero(greet){
   const av=blobUrl(S.settings.avatarId);
   const first=(myName()||'').split(' ')[0];
   return h('section',{class:'hero'},
-    h('div',{class:'hero-top'},h('div',null,h('h1',null,'Today'),h('p',null,(first?'Welcome back, '+first+' · ':'')+new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}))),
-      h('div',{class:'row',style:'flex-wrap:nowrap'},C.assets&&!S.settings.coverId?h('button',{class:'btn sm ghost m-hide',onclick:()=>pickImage('cover')},'Add cover'):null,h('button',{class:'hero-me',title:C.assets?'Change your photo':'You',onclick:()=>C.assets?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your photo'}):initials(myName()||'You')))),
+    S.settings.coverId?null:h('div',{class:'hero-top'},h('div',null,h('div',{class:'eyebrow'},new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})),h('h1',{class:'greet',style:'margin-top:10px'},h('span',{class:'greet-a'},(()=>{const hr=new Date().getHours();return hr<12?'Good morning,':hr<18?'Good afternoon,':'Good evening,'})()),h('br'),(first||'Friend')+'.'),C.assets&&!S.settings.coverId?h('button',{class:'btn sm ghost',style:'margin-top:10px;padding-left:0',onclick:()=>pickImage('cover')},icon('plus'),'Add a cover photo'):null),
+      h('div',{class:'row',style:'flex-wrap:nowrap'},h('button',{class:'hero-me',title:C.assets?'Change your photo':'You',onclick:()=>C.assets?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your photo'}):initials(myName()||'You')))),
     dotRing(p),
     h('div',null,h('div',{class:'big tnum'},Math.round(p*100)+'%'),h('div',{class:'big-sub'},wk.length?'of this week done · '+dn+' of '+wk.length+' tasks':'Nothing planned this week yet'),
       h('div',{class:'mini'},
@@ -835,7 +928,7 @@ function pageInbox(){
   const tab=S.inboxTab;
   if(tab!=='sent'&&S.gmailStatus!=='checking')watchList('inbox',inboxQuery());
   const L=S.lists.inbox;
-  const tabs=[['deals','Brand deals'],['primary','Primary'],['all','All inbox'],['sent','Sent from Studio']];
+  const tabs=[['deals','Brand deals'],['primary','Primary'],['all','All inbox'],['sent','Sent from Daylo']];
   if(tab==='search')tabs.push(['search','Search results']);
   const searchForm=h('form',{class:'search',onsubmit:e=>{e.preventDefault();const v=e.target.elements.q.value.trim();if(!v)return;S.inboxQ=v;S.inboxTab='search';e.target.elements.q.blur();pending=false;renderMain()}},
     h('input',{class:'input',id:'inbox-q',name:'q',placeholder:'Search Gmail, e.g. from:brand.com',value:tab==='search'?S.inboxQ:''}),h('button',{class:'btn',type:'submit','aria-label':'Search'},icon('search')));
@@ -845,7 +938,7 @@ function pageInbox(){
     listPanel=h('section',{class:'panel thread-list'},sent.length?h('div',{class:'list'},sent.map(s=>h('div',{class:'item click',role:'button',tabindex:'0',onclick:()=>showSentRecord(s)},
       h('div',{class:'avatar'},icon('send')),h('div',{class:'grow'},h('div',{class:'row',style:'justify-content:space-between;flex-wrap:nowrap'},h('span',{class:'t',style:'overflow:hidden;text-overflow:ellipsis;white-space:nowrap'},(s.to||[]).join(', ')),h('span',{class:'meta small muted'},fmtWhen(new Date(s.sentAt).toISOString()))),
       h('div',{class:'sub',style:'color:var(--fg)'},s.subject||'(reply)'),h('div',{class:'row',style:'gap:6px;margin-top:4px'},s.verified?h('span',{class:'pill ok'},'In your Sent folder'):h('span',{class:'pill amber'},'Accepted by Gmail')))))):
-      emptyState('Nothing sent yet','Every email you send from Creator Studio is recorded here with its Gmail confirmation.'));
+      emptyState('Nothing sent yet','Every email you send from Daylo is recorded here with its Gmail confirmation.'));
   }else{
     listPanel=h('section',{class:'panel thread-list'},
       h('div',{class:'panel-head'},h('span',{class:'small muted'},L.at?'Updated '+fmtWhen(new Date(L.at).toISOString()):'Your Gmail'),h('button',{class:'iconbtn',title:'Refresh',onclick:refreshLists},icon('refresh'))),
@@ -981,7 +1074,8 @@ function pageSchedule(){
       rToday.length?[subhead('Routines','Your repeating habits for today'),h('div',{class:'list'},rToday.map(r=>routineRow(r,t)))]:null)
     :emptyState('Nothing planned for today','Add a task, or set up a routine like “Pitch brands” on certain weekdays.'));
   let body;
-  if(view==='week'){
+  if(view==='day'){body=dayView()}
+  else if(view==='week'){
     const ws=addDays(weekStartOf(t),7*(S.weekOffset||0));const days=[0,1,2,3,4,5,6].map(i=>addDays(ws,i));
     const later=open.filter(x=>x.due>days[6]),nodate=open.filter(x=>!x.due);
     body=[h('section',{class:'panel',id:'week'},
@@ -1007,11 +1101,50 @@ function pageSchedule(){
   return h('div',{class:'page'},
     head('Schedule','Your week in one place: what\'s due, bigger jobs spread over several days, and your routines.',h('button',{class:'btn',onclick:()=>openRoutine(null)},icon('refresh'),'Add routine'),h('button',{class:'btn primary',onclick:()=>openTask(null)},icon('plus'),'Add task')),
     chips,
-    todayPlan,
-    h('div',{class:'tabs',role:'tablist','aria-label':'Schedule view'},[['week','Week'],['type','By what to do'],['routines','Routines']].map(([k,l])=>h('button',{role:'tab','aria-selected':String(view===k),onclick:()=>{S.schedView=k;renderMain()}},l))),
+    view==='day'?null:todayPlan,
+    h('div',{class:'tabs',role:'tablist','aria-label':'Schedule view'},[['day','Day'],['week','Week'],['type','By what to do'],['routines','Routines']].map(([k,l])=>h('button',{role:'tab','aria-selected':String(view===k),onclick:()=>{S.schedView=k;renderMain()}},l))),
     body,
     done.length?h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Done'),h('button',{class:'btn ghost sm',onclick:()=>{S.showDone=!S.showDone;renderMain()}},S.showDone?'Hide':'Show '+done.length)),S.showDone?h('div',{class:'list'},done.slice(0,30).map(taskRow)):null):null
   );
+}
+
+/* ---------- day view: a day strip and a timeline of cards ---------- */
+function fmtT(hm){if(!hm)return['',''];const[hh,mm]=hm.split(':').map(Number);return[(hh%12||12)+':'+String(mm).padStart(2,'0'),hh<12?'AM':'PM']}
+const TYPE_ICON={'Reply':'mail','Follow up':'send','Send content':'send','Plan':'schedule','Film':'campaigns','Edit':'campaigns','Submit':'check','Post':'spark','Payment':'payments','Other':'today'};
+function dayItems(d){const t=ymd();
+  const tasks=S.tasks.filter(x=>x.due&&((!x.done&&activeOn(x,d))||(x.done&&x.due===d)||(d===t&&!x.done&&x.due<t)));
+  return [...tasks.map(x=>({k:'task',x,time:x.due===d?(x.time||''):''})),...routinesOn(d).map(r=>({k:'routine',x:r,time:r.time||''}))]
+    .sort((a,b)=>(a.time||'99').localeCompare(b.time||'99')||(a.k==='routine')-(b.k==='routine'))}
+function statusPill(it,d){const t=ymd(),x=it.x;
+  if(it.k==='routine')return routineDone(x,d)?h('span',{class:'spill done'},'Done'):h('span',{class:'spill routine'},'Routine');
+  if(x.done)return h('span',{class:'spill done'},'Completed');
+  if(x.due<t)return h('span',{class:'spill late'},'Late');
+  if(x.due===d)return h('span',{class:'spill due'},x.due===t?'Due today':'Due');
+  return h('span',{class:'spill work'},'Work on it')}
+function dayCard(it,d){const x=it.x;const isR=it.k==='routine';
+  const camp=!isR&&x.campaignId?S.campaigns.find(c=>c.id===x.campaignId):null;
+  const sub=isR?(x.type||'Routine')+' · repeats':[x.type||'Task',camp?camp.brand:null,x.due!==d&&taskStart(x)!==x.due?'due '+shortDate(x.due):null].filter(Boolean).join(' · ');
+  const done=isR?routineDone(x,d):!!x.done;
+  return h('div',{class:'tcard'+(done?' is-done':''),role:'button',tabindex:'0',onclick:()=>isR?openRoutine(x):openTask(x),onkeydown:e=>{if(e.key==='Enter')isR?openRoutine(x):openTask(x)}},
+    h('div',{class:'tcard-top'},h('span',{class:'tico'},icon(isR?'refresh':(TYPE_ICON[x.type]||'today'))),
+      h('div',{class:'grow'},h('div',{class:'tt'},x.title||'Untitled'),h('div',{class:'ts'},sub)),
+      h('button',{class:'tcheck'+(done?' on':''),role:'checkbox','aria-checked':String(done),'aria-label':done?'Mark not done':'Mark done',onclick:e=>{e.stopPropagation();isR?toggleRoutine(x,d):attempt(()=>save('tasks',{...x,done:!x.done,doneAt:!x.done?Date.now():null}))}},done?icon('check'):null)),
+    h('div',{class:'tcard-foot'},statusPill(it,d),camp?h('span',{class:'tmeta'},h('span',{class:'tav'},initials(camp.brand)),camp.brand):h('span',{class:'tmeta'},isR?'Every '+(x.days||[]).slice().sort((a,b)=>WEEK_ORDER.indexOf(a)-WEEK_ORDER.indexOf(b)).map(n=>DOW[n]).join(', '):'')))}
+function dayView(){
+  const t=ymd();const sel=S.dayPick||t;const ws=weekStartOf(sel);const days=[0,1,2,3,4,5,6].map(i=>addDays(ws,i));
+  const items=dayItems(sel);const pd=parseYmd(sel);
+  const strip=h('div',{class:'dstrip',role:'tablist','aria-label':'Pick a day'},days.map(d=>{const n=dayItems(d).filter(i=>!(i.k==='task'&&i.x.done)).length;const x=parseYmd(d);
+    return h('button',{role:'tab','aria-selected':String(d===sel),class:'dpill'+(d===sel?' on':'')+(d===t?' is-today':''),onclick:()=>{S.dayPick=d;renderMain()}},h('span',{class:'dw'},DOW[x.getDay()]),h('b',null,x.getDate()),h('span',{class:'dn'},n?n+(n===1?' thing':' things'):'free'))}));
+  const rows=items.map(it=>{const[tm,ap]=fmtT(it.time);return h('div',{class:'trow'},h('div',{class:'tcol'},tm?[h('b',null,tm),h('span',null,ap)]:h('span',null,'Any time')),dayCard(it,sel))});
+  return h('section',{class:'dayv',id:'week'},
+    h('div',{class:'dhead'},h('h2',null,sel===t?'Today':pd.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})),
+      h('div',{class:'row',style:'gap:8px;flex-wrap:nowrap'},
+        h('div',{class:'mpill'},h('button',{'aria-label':'Previous week',onclick:()=>{S.dayPick=addDays(sel,-7);renderMain()}},'‹'),h('span',null,icon('schedule'),pd.toLocaleDateString(undefined,{month:'short',year:'numeric'})),h('button',{'aria-label':'Next week',onclick:()=>{S.dayPick=addDays(sel,7);renderMain()}},'›')),
+        h('button',{class:'roundadd','aria-label':'Add on this day',onclick:()=>openTask({type:'Other',due:sel,done:false})},icon('plus')))),
+    strip,
+    sel!==t?h('button',{class:'btn sm ghost',style:'align-self:flex-start',onclick:()=>{S.dayPick=null;renderMain()}},'Back to today'):null,
+    h('div',{class:'tline'},rows,
+      h('div',{class:'trow'},h('div',{class:'tcol'},h('span',null,items.length?'Free':'')),h('button',{class:'tslot',onclick:()=>openTask({type:'Other',due:sel,done:false})},icon('plus'),items.length?'Open time. Add something':'Nothing planned. Add something'))));
 }
 
 /* routine form */
@@ -1168,11 +1301,12 @@ async function buildSchedule(c){
 /* task */
 function openTask(x){
   x=x||{type:'Other',due:ymd(),done:false};
-  const form=h('form',{class:'form',id:'task-form',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;const id=await attempt(()=>save('tasks',{...x,title:f.title.value.trim(),type:f.type.value,due:f.due.value,start:(f.start.value&&f.due.value&&f.start.value<f.due.value)?f.start.value:'',effort:f.effort.value,campaignId:f.campaignId.value||null,notes:f.notes.value.trim(),suggested:false}),'Task saved');if(id)closeDrawer()}},
+  const form=h('form',{class:'form',id:'task-form',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;const id=await attempt(()=>save('tasks',{...x,title:f.title.value.trim(),type:f.type.value,due:f.due.value,time:f.time.value||'',start:(f.start.value&&f.due.value&&f.start.value<f.due.value)?f.start.value:'',effort:f.effort.value,campaignId:f.campaignId.value||null,notes:f.notes.value.trim(),suggested:false}),'Task saved');if(id)closeDrawer()}},
     h('div',{class:'fgrid'},
       field('Task',inp('title',x.title,{required:true,placeholder:'e.g. Film unboxing'}),null,'span2'),
       field('Type',sel('type',TASK_TYPES,x.type||'Other','f-type')),
       field('Due (finish by)',inp('due',x.due,{type:'date'})),
+      field('Time (optional)',inp('time',x.time,{type:'time'}),'It shows at this time in your day.'),
       field('How long will it take?',sel('effort',EFFORT,x.effort||'','f-effort'),'Bigger jobs get spread over several days.'),
       field('Start working on',inp('start',x.start,{type:'date'}),'Leave empty if it only takes one day.'),
       field('Campaign',sel('campaignId',[['','No campaign'],...S.campaigns.map(c=>[c.id,c.brand+(c.campaign?' · '+c.campaign:'')])],x.campaignId||'','f-campaignId'),null,'span2'),
@@ -1429,7 +1563,7 @@ function composeDone(){
     CP.verified==null?h('div',{class:'notice info'},h('span',{class:'spin'}),h('p',null,'Checking your Gmail Sent folder…')):
       CP.verified?h('div',{class:'notice info'},icon('check'),h('p',null,h('b',null,'Confirmed in your Sent folder. '),'Gmail accepted the email. That confirms it left your account, not that it reached their inbox.')):
       h('div',{class:'notice'},icon('alert'),h('p',null,'Gmail accepted the email, but it hasn\'t shown up in Sent yet. Open Gmail to check before sending again.')),
-    h('p',{class:'small muted'},'A copy is saved under Inbox → Sent from Studio. Sent emails can\'t be edited.'));
+    h('p',{class:'small muted'},'A copy is saved under Inbox → Sent from Daylo. Sent emails can\'t be edited.'));
 }
 function composeFailed(){
   const e=CP.error;const ambiguous=['server_unavailable','upstream_error','cancelled'].includes(e?.code)||!e?.code;
@@ -1502,7 +1636,8 @@ const IDB={_db:null,
   async set(k,v){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})},
   async del(k){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').delete(k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}};
 let persistT=null;
-function persist(){clearTimeout(persistT);persistT=setTimeout(async()=>{const st={settings:S.settings};COLLS.forEach(c=>st[c]=S[c]);try{await IDB.set('state',clean(st))}catch(e){console.error(e);toast('Couldn\'t save on this device. Check that your browser allows site storage.')}},120)}
+function persist(){clearTimeout(persistT);persistT=setTimeout(persistNow,120)}
+async function persistNow(){clearTimeout(persistT);const st={settings:S.settings};COLLS.forEach(c=>st[c]=S[c]);try{await IDB.set(stateKey(),clean(st))}catch(e){console.error(e);toast('Couldn\'t save on this device. Check that your browser allows site storage.')}try{syncAcct()}catch{}}
 async function save(coll,obj){const{id,...rest}=obj;rest.updatedAt=Date.now();if(!rest.createdAt)rest.createdAt=Date.now();const nid=id||('m'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));const rec={...clean(rest),id:nid};const i=S[coll].findIndex(x=>x.id===nid);if(i>=0)S[coll][i]=rec;else S[coll].push(rec);schedule();persist();return nid}
 async function removeDoc(coll,id){S[coll]=S[coll].filter(x=>x.id!==id);schedule();persist()}
 async function saveSettings(patch){S.settings={...S.settings,...patch,updatedAt:Date.now()};schedule();persist()}
@@ -1543,13 +1678,13 @@ function pageInbox(){
   const sent=[...S.sent].sort((a,b)=>(b.sentAt||0)-(a.sentAt||0));
   return h('div',{class:'page'},head('Email','Write emails here, then send them from your own Gmail.',h('button',{class:'btn primary',onclick:()=>openComposer({})},icon('mail'),'Write email')),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your Gmail')),gmailLinkPanel()),
-    h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Sent from Creator Studio'),h('span',{class:'small muted'},sent.length)),
+    h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Sent from Daylo'),h('span',{class:'small muted'},sent.length)),
       sent.length?h('div',{class:'list'},sent.map(s=>h('div',{class:'item click',role:'button',tabindex:'0',onclick:()=>showSentRecord(s)},h('div',{class:'avatar'},icon('send')),h('div',{class:'grow'},h('div',{class:'t'},(s.to||[]).join(', ')),h('div',{class:'sub'},(s.subject||'(no subject)')+' · '+fmtFull(s.sentAt))))))
       :emptyState('Nothing sent yet','Emails you send through Gmail from here are listed in this history.')));
 }
 let installEvt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;schedule()});
-window.addEventListener('appinstalled',()=>{installEvt=null;toast('Creator Studio is installed');schedule()});
+window.addEventListener('appinstalled',()=>{installEvt=null;toast('Daylo is installed');schedule()});
 async function installApp(){if(installEvt){installEvt.prompt();try{await installEvt.userChoice}catch{}installEvt=null;schedule()}else{go('settings');scrollToId('install')}}
 function exportData(){const d={app:'creator-studio',format:1,exportedAt:Date.now(),settings:{...S.settings,coverId:null,avatarId:null}};COLLS.forEach(c=>d[c]=S[c]);
   const a=h('a',{href:URL.createObjectURL(new Blob([JSON.stringify(d,null,1)],{type:'application/json'})),download:'creator-studio-backup-'+ymd()+'.json'});document.body.append(a);a.click();a.remove();toast('Backup downloaded')}
@@ -1559,9 +1694,9 @@ function importData(){const inp=h('input',{type:'file',accept:'application/json,
       COLLS.forEach(c=>(Array.isArray(d[c])?d[c]:[]).forEach(r=>{if(!r||!r.id)return;const i=S[c].findIndex(x=>x.id===r.id);if(i>=0)S[c][i]=r;else S[c].push(r);n++}));
       if(d.settings&&typeof d.settings==='object')S.settings={...S.settings,...d.settings,coverId:S.settings.coverId||null,avatarId:S.settings.avatarId||null};
       persist();schedule();toast('Imported '+n+' items')}
-    catch{toast('That file isn\'t a Creator Studio backup.')}});
+    catch{toast('That file isn\'t a Daylo backup.')}});
   document.body.append(inp);inp.click()}
-function welcomeCard(){return h('section',{class:'panel'},h('div',{class:'panel-body form'},h('h2',null,'Welcome to your Creator Studio'),h('p',{class:'muted'},'Look around with example data, bring in your own backup file, or start empty.'),h('div',{class:'row'},h('button',{class:'btn primary',onclick:()=>{loadDemo();toast('Example data loaded')}},'Try with example data'),h('button',{class:'btn',onclick:importData},'Import my data'),h('button',{class:'btn',onclick:()=>openCampaign(null)},icon('plus'),'Start empty'))))}
+function welcomeCard(){return h('section',{class:'panel'},h('div',{class:'panel-body form'},h('h2',null,'Welcome to your Daylo'),h('p',{class:'muted'},'Look around with example data, bring in your own backup file, or start empty.'),h('div',{class:'row'},h('button',{class:'btn primary',onclick:()=>{loadDemo();toast('Example data loaded')}},'Try with example data'),h('button',{class:'btn',onclick:importData},'Import my data'),h('button',{class:'btn',onclick:()=>openCampaign(null)},icon('plus'),'Start empty'))))}
 function pageSettings(){
   const st=S.settings;
   const form=h('form',{class:'form',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;await attempt(()=>saveSettings({role:f.role.value,name:f.name.value.trim(),gmailAddress:f.gmailAddress.value.trim().toLowerCase(),rates:f.rates.value.trim(),signature:f.signature.value,currency:f.currency.value,dealQuery:f.dealQuery.value.trim()}),'Settings saved')}},
@@ -1577,71 +1712,205 @@ function pageSettings(){
   return h('div',{class:'page'},head('Settings','Your details, your data and installing the app.'),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your details')),h('div',{class:'panel-body'},form)),
     lookPanel(),
-    h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your account')),h('div',{class:'panel-body form'},h('div',{class:'kv'},h('span',null,'Email'),h('span',null,S.settings.accountEmail||'Not set'),h('span',null,'What you do'),h('span',null,(ROLES.find(r=>r[0]===role())||[])[1]||'')),h('div',{class:'row'},h('button',{class:'btn',onclick:e=>confirmDelete(e.currentTarget,()=>{COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();persist();S.booted=true;ONB={step:'welcome',role:'',err:''};renderSide();renderMain();toast('Signed out. Your space on this phone was cleared.')})},'Sign out and clear this phone')))),
+    accountPanel(),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your data')),h('div',{class:'panel-body form'},
       h('p',{class:'small muted'},'Everything is saved on this device, in this browser. Nobody else can see it. Your laptop and phone don’t share data yet; syncing comes in the next step. Download a backup now and then.'),
       h('div',{class:'row'},h('button',{class:'btn',onclick:exportData},'Download backup'),h('button',{class:'btn',onclick:importData},'Import data')))),
     h('section',{class:'panel',id:'install'},h('div',{class:'panel-head'},h('h2',null,'Install the app')),h('div',{class:'panel-body form'},
-      installEvt?h('div',null,h('button',{class:'btn primary',onclick:installApp},icon('plus'),'Install Creator Studio')):null,
-      h('div',{class:'kv'},h('span',null,'Laptop'),h('span',null,'In Chrome or Edge, click the install icon at the right end of the address bar (or menu → “Install Creator Studio”). It opens in its own window with its own icon.'),
+      installEvt?h('div',null,h('button',{class:'btn primary',onclick:installApp},icon('plus'),'Install Daylo')):null,
+      h('div',{class:'kv'},h('span',null,'Laptop'),h('span',null,'In Chrome or Edge, click the install icon at the right end of the address bar (or menu → “Install Daylo”). It opens in its own window with its own icon.'),
         h('span',null,'Mac Safari'),h('span',null,'File → “Add to Dock”.'),
         h('span',null,'iPhone'),h('span',null,'Open the site in Safari → Share → “Add to Home Screen”.'),
         h('span',null,'Android'),h('span',null,'Chrome menu → “Install app”.')))),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Coming next')),h('div',{class:'list'},
       h('div',{class:'item'},icon('refresh'),h('div',{class:'grow'},h('div',{class:'t'},'Sync laptop and phone'),h('div',{class:'small muted'},'Log in and see the same data everywhere.'))),
-      h('div',{class:'item'},icon('inbox'),h('div',{class:'grow'},h('div',{class:'t'},'Gmail inbox inside the app'),h('div',{class:'small muted'},'Read and reply without leaving Creator Studio.'))),
+      h('div',{class:'item'},icon('inbox'),h('div',{class:'grow'},h('div',{class:'t'},'Gmail inbox inside the app'),h('div',{class:'small muted'},'Read and reply without leaving Daylo.'))),
       h('div',{class:'item'},icon('spark'),h('div',{class:'grow'},h('div',{class:'t'},'AI writing help'),h('div',{class:'small muted'},'Suggestions you choose to use, like in the Claude version.'))))));
 }
 
-/* ---------- onboarding: first screen for new people ---------- */
+/* ---------- phone notifications and the app icon badge ---------- */
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+function notifSupported(){return 'Notification' in window&&'serviceWorker' in navigator}
+function notifState(){return notifSupported()?Notification.permission:'unsupported'}
+async function swReg(){if(!('serviceWorker' in navigator))return null;try{return await Promise.race([navigator.serviceWorker.ready,new Promise(r=>setTimeout(()=>r(null),3000))])}catch{return null}}
+async function showNote(title,body,tag,url){const r=await swReg();const o={body,tag,icon:'icons/icon-192.png',badge:'icons/icon-192.png',data:{url:url||'./#today'}};
+  if(r&&r.showNotification){try{return await r.showNotification(title,o)}catch{}}try{new Notification(title,o)}catch{}}
+function updateBadge(){if(!CUR)return;const n=notifications().filter(x=>x.lvl).length;try{if(navigator.setAppBadge){n?navigator.setAppBadge(n):navigator.clearAppBadge()}}catch{}}
+async function enableNotifs(){
+  if(!notifSupported()||(isIOS&&!isStandalone())){toast(isIOS?'On iPhone: open Daylo in Safari, tap Share → “Add to Home Screen”, then open Daylo from your Home Screen and turn notifications on there.':'This browser can’t show notifications. Try Chrome or Safari.');return}
+  let r='default';try{r=await Notification.requestPermission()}catch{}
+  if(r==='granted'){await saveSettings({notifOn:true});registerPeriodic();await showNote('Notifications are on','Daylo will remind you about what’s due, what’s late and what’s coming up.','daylo-on','./#today');toast('Notifications are on');setTimeout(()=>notifyNow(),1500)}
+  else toast('Notifications stay off. You can turn them on later in your phone’s settings.');
+  schedule()}
+async function registerPeriodic(){try{const r=await swReg();if(r&&'periodicSync' in r){let ok=true;try{const st=await navigator.permissions.query({name:'periodic-background-sync'});ok=st.state==='granted'}catch{}if(ok)await r.periodicSync.register('daylo-check',{minInterval:4*60*60*1000})}}catch{}}
+let notifBusy=false;
+async function notifyNow(){if(notifBusy||!CUR||notifState()!=='granted'||!S.settings.notifOn)return;notifBusy=true;
+  try{const t=ymd(),now=new Date();let changed=false;
+    const sent=(S.settings.notified&&S.settings.notified.day===t)?{...S.settings.notified,keys:[...S.settings.notified.keys]}:{day:t,keys:[]};
+    let last=null;try{last=await IDB.get('lastSummary:'+CUR)}catch{}
+    if(last!==t&&now.getHours()>=7){const late=S.tasks.filter(x=>!x.done&&x.due&&x.due<t).length,due=S.tasks.filter(x=>!x.done&&x.due===t).length,rt=routinesOn(t).filter(r=>!routineDone(r,t)).length;
+      if(late||due||rt){await showNote('Your day in Daylo',[due&&due+' due today',late&&late+' late',rt&&rt+(rt===1?' routine':' routines')].filter(Boolean).join(' · '),'daylo-summary','./#schedule')}
+      try{await IDB.set('lastSummary:'+CUR,t)}catch{}}
+    for(const x of S.tasks.filter(x=>!x.done&&x.due===t&&x.time)){const[hh,mm]=x.time.split(':').map(Number);const at=new Date();at.setHours(hh,mm,0,0);const diff=(at-now)/60000;const k='soon:'+x.id+':'+x.time;
+      if(diff<=15&&diff>-5&&!sent.keys.includes(k)){await showNote(diff>0?'In '+Math.max(1,Math.round(diff))+' min: '+x.title:'Now: '+x.title,(x.type||'Task')+(x.campaignId?' · '+campaignName(x.campaignId):''),k,'./#schedule');sent.keys.push(k);changed=true}}
+    for(const i of S.invoices.filter(i=>i.status==='Sent'&&i.due&&i.due<t)){const k='inv:'+i.id;if(!sent.keys.includes(k)){await showNote('Payment is late',(i.client||'An invoice')+' · '+money(i.amount,i.currency),k,'./#payments');sent.keys.push(k);changed=true}}
+    if(changed){S.settings={...S.settings,notified:sent};persist()}
+  }finally{notifBusy=false}}
+setInterval(()=>{notifyNow();updateBadge()},60000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){notifyNow();updateBadge()}});
+function notifSetup(){const st=notifState();const on=st==='granted'&&S.settings.notifOn;
+  if(on)return h('div',{class:'nset'},icon('bell'),h('div',{class:'grow'},h('b',null,'Phone notifications are on'),h('p',null,'A summary each morning, a heads-up 15 minutes before timed tasks, and late payments. The app icon shows how many things need you.')),h('button',{class:'btn sm ghost',onclick:async()=>{await saveSettings({notifOn:false});try{navigator.clearAppBadge&&navigator.clearAppBadge()}catch{}toast('Notifications paused');closeDrawer()}},'Pause'));
+  if(st==='denied')return h('div',{class:'nset'},icon('bell'),h('div',{class:'grow'},h('b',null,'Notifications are blocked'),h('p',null,'Turn them on for this site in your phone or browser settings, then come back.')));
+  const ios=isIOS&&!isStandalone();
+  return h('div',{class:'nset'},icon('bell'),h('div',{class:'grow'},h('b',null,'Get reminders on your phone'),h('p',null,ios?'On iPhone, first add Daylo to your Home Screen (Share → Add to Home Screen), then open it from there.':'Your phone asks you first. You can turn them off anytime.')),ios?null:h('button',{class:'btn sm primary',onclick:enableNotifs},'Turn on'));
+}
+
+/* ---------- accounts: each person signs in with their email and gets their own space ---------- */
+const ACCOUNTS_ON=true;
 S.booted=false;
-let ONB={step:'welcome',role:'',err:''};
+let CUR=null;   // email of the person signed in
+let ACCTS=[];   // [{email,name,avatarId,theme,salt,hash,createdAt,lastAt}]
+let ONB={step:'start',role:'',err:'',pick:null,show:false};
 const ROLE_HINT={creator:'Brand deals, content and payments',stylist:'Clients, shoots and looks',photographer:'Bookings, shoots and editing',designer:'Clients, projects and deadlines',business:'Customers, orders and money',employee:'Work projects and deadlines',student:'Classes, assignments and exams',personal:'Home, errands and goals',other:'Anything you want to organize'};
+function isEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v||'')}
+function stateKey(){return ACCOUNTS_ON&&CUR?'state:'+CUR:'state'}
+function acct(email){return ACCTS.find(a=>a.email===email)}
+async function saveAccts(){try{await IDB.set('accounts',ACCTS)}catch(e){console.error(e)}}
+function syncAcct(){if(!ACCOUNTS_ON||!CUR)return;const a=acct(CUR);if(!a)return;const st=S.settings;let ch=false;
+  for(const[k,v]of[['name',st.name||''],['avatarId',st.avatarId||null],['theme',st.theme||null]]){if(a[k]!==v){a[k]=v;ch=true}}if(ch)saveAccts()}
+async function hashPw(pw,salt){const enc=new TextEncoder();
+  if(!(window.crypto&&crypto.subtle)){let x=7;for(const c of salt+'|'+pw)x=(x*31+c.charCodeAt(0))>>>0;return 'w'+x.toString(16)}
+  const key=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(salt),iterations:120000,hash:'SHA-256'},key,256);
+  return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function setPassword(a,pw){a.salt=Math.random().toString(36).slice(2)+Date.now().toString(36);a.hash=await hashPw(pw,a.salt);await saveAccts()}
+async function loadImg(id){if(!id||S.imgs[id])return;try{const b=await IDB.get('img:'+id);if(b)S.imgs[id]=URL.createObjectURL(b)}catch{}}
+async function enterAccount(email){
+  CUR=email;try{await IDB.set('cur',email)}catch{}
+  COLLS.forEach(c=>S[c]=[]);S.settings={};
+  try{const st=await IDB.get(stateKey());if(st){COLLS.forEach(c=>{if(Array.isArray(st[c]))S[c]=st[c]});if(st.settings)S.settings=st.settings}}catch(e){console.error(e)}
+  const a=acct(email);if(a){a.lastAt=Date.now();saveAccts()}
+  await loadImg(S.settings.avatarId);await loadImg(S.settings.coverId);applyTheme();
+}
+async function signOut(msg){await persistNow();CUR=null;try{await IDB.del('cur')}catch{}COLLS.forEach(c=>S[c]=[]);S.settings={};applyTheme();
+  ONB={step:'start',role:'',err:'',pick:null,show:false};for(const a of ACCTS)await loadImg(a.avatarId);renderSide();renderMain();if(msg)toast(msg)}
+function finishEntry(isNew){ONB={step:'start',role:'',err:'',pick:null,show:false};document.body.classList.remove('onb','onb-start');renderSide();if(S.settings.onboarded){go('today');const f=(S.settings.name||'').split(' ')[0];toast((isNew?'Welcome to Daylo':'Welcome back')+(f?', '+f:'')+'!')}else renderMain()}
+function faceOf(a,cls){const u=blobUrl(a.avatarId);return h('span',{class:cls||'acct-face'},u?h('img',{src:u,alt:''}):initials(a.name||a.email))}
+function pwInput(name,id,ph,auto){const i=h('input',{class:'input',name,id,type:ONB.show?'text':'password',autocomplete:auto,placeholder:ph,minlength:'6'});
+  return h('div',{class:'pw-row'},i,h('button',{type:'button',class:'btn sm ghost',onclick:e=>{ONB.show=!ONB.show;document.querySelectorAll('.pw-row input').forEach(x=>x.type=ONB.show?'text':'password');e.currentTarget.textContent=ONB.show?'Hide':'Show'}},ONB.show?'Hide':'Show'))}
+function errBox(){return ONB.err?h('div',{class:'notice bad'},icon('alert'),h('p',null,ONB.err)):null}
+function keepVals(ids,fn){const v=ids.map(id=>{const e=document.getElementById(id);return e?e.value:''});fn();ids.forEach((id,i)=>{const e=document.getElementById(id);if(e&&v[i])e.value=v[i]})}
+
+function ringLogo(){const w=h('div',{class:'ring-logo','aria-label':'Daylo'});
+  w.innerHTML='<svg viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M28 62 A50 50 0 0 1 118 40" stroke-width="2.2"/><path d="M22 72 A54 54 0 0 1 112 30" stroke-width="1" opacity=".6"/><path d="M122 90 A50 50 0 0 1 32 110" stroke-width="2.2"/><path d="M128 80 A54 54 0 0 1 38 120" stroke-width="1" opacity=".6"/></svg><b>DAYLO</b>';return w}
 function renderOnboarding(){
   document.body.classList.add('onb');
-  const m=$('#main');
-  if(ONB.step==='welcome'){
-    m.replaceChildren(h('div',{class:'onb-wrap'},
-      h('div',{class:'onb-mark'},'Cs'),
-      h('h1',{class:'onb-title'},'Creator Studio'),
-      h('p',{class:'onb-lead'},'Everything you have to do, in one calm place. Your week, your projects and your money, organized for you.'),
-      h('div',{class:'onb-actions'},h('button',{class:'btn primary onb-big',onclick:()=>{ONB.step='form';renderMain()}},'Create my space'),h('button',{class:'btn onb-big',onclick:()=>{loadDemo();S.settings={...S.settings,onboarded:true,demo:true};persist();renderMain();renderSide()}},'Look around with examples')),
-      h('p',{class:'small muted',style:'text-align:center'},'Free while we test. Nothing is sent anywhere without you.')));
-    return;
-  }
-  if(S.settings.onbStep==='look'){
-    const st=S.settings,av=blobUrl(st.avatarId),cur=st.theme||'colorful',first=(st.name||'').split(' ')[0];
-    const finish=()=>{const{onbStep,...rest}=S.settings;S.settings={...rest,theme:S.settings.theme||'colorful',onboarded:true};persist();ONB={step:'welcome',role:'',err:''};document.body.classList.remove('onb');renderSide();go('today');toast('Welcome'+(first?', '+first:'')+'!')};
-    m.replaceChildren(h('div',{class:'onb-wrap'},h('div',{class:'form onb-card'},
+  document.body.classList.toggle('onb-start',!(CUR&&!S.settings.onboarded));
+  const m=$('#main');const wrap=(...k)=>m.replaceChildren(h('div',{class:'onb-wrap'},...k));
+  const step=s=>{ONB.step=s;ONB.err='';renderMain()};
+
+  /* signed in, still setting up: photo, cover and colors */
+  if(CUR&&!S.settings.onboarded){
+    const st=S.settings,av=blobUrl(st.avatarId),cv=blobUrl(st.coverId),cur=st.theme||'ivory';
+    const done=()=>{S.settings={...S.settings,theme:S.settings.theme||'ivory',onboarded:true};delete S.settings.onbStep;persistNow();finishEntry(true)};
+    return wrap(h('div',{class:'form onb-card'},
       h('h2',{class:'onb-h'},'Make it yours'),
-      h('div',{class:'field'},h('span',null,'Add your photo'),h('small',null,'Pick one from your phone. Your phone will ask if Creator Studio can open your photos. Say yes only if you want to. The photo stays on this phone.'),
+      h('div',{class:'field'},h('span',null,'Your photo'),h('small',null,'Pick one from your phone. Your phone asks first if Daylo can open your photos. The photo stays on this phone.'),
         h('button',{type:'button',class:'onb-photo',onclick:()=>pickImage('avatar'),'aria-label':av?'Change your photo':'Add your photo'},av?h('img',{src:av,alt:'Your photo'}):h('span',null,icon('plus'),h('br'),'Add photo')),
         av?h('div',{class:'row',style:'justify-content:center'},h('button',{type:'button',class:'btn sm ghost',onclick:()=>removeImage('avatar')},'Remove photo')):null),
-      h('div',{class:'field'},h('span',null,'Pick your colors'),h('small',null,'Tap one to preview it. You can change it anytime in Settings.'),
+      h('div',{class:'field'},h('span',null,'Cover photo for your home screen'),h('small',null,'Optional. A photo you love at the top of your Today page.'),
+        h('button',{type:'button',class:'onb-cover',onclick:()=>pickImage('cover'),style:cv?'background-image:url("'+cv+'")':''},cv?null:h('span',null,icon('plus'),' Add cover photo')),
+        cv?h('div',{class:'row',style:'justify-content:center'},h('button',{type:'button',class:'btn sm ghost',onclick:()=>removeImage('cover')},'Remove cover')):null),
+      h('div',{class:'field'},h('span',null,'Your colors'),h('small',null,'Tap one to preview it. You can change it anytime in Settings.'),
         themePicker(cur,k=>{S.settings={...S.settings,theme:k};applyTheme(k);persist();renderMain()})),
-      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'button',onclick:finish},'Done, take me in'),h('button',{class:'btn ghost',type:'button',onclick:finish},'Skip for now')))));
-    return;
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'button',onclick:done},'Done, take me in'),h('button',{class:'btn ghost',type:'button',onclick:done},'Skip for now'))));
   }
-  const form=h('form',{class:'form onb-card',onsubmit:e=>{e.preventDefault();const f=e.target.elements;
-      const name=f.oname.value.trim(),email=f.oemail.value.trim().toLowerCase();
-      if(!name){ONB.err='Add your name.';return renderMain()}
-      if(!validEmail(email)){ONB.err='Add a valid email so we can save your space.';return renderMain()}
-      if(!ONB.role){ONB.err='Choose what you do, so the app fits you.';return renderMain()}
-      if(f.examples.checked)loadDemo();
-      S.settings={...S.settings,name,accountEmail:email,role:ONB.role,onbStep:'look',demo:!!f.examples.checked,joinedAt:Date.now()};
-      persist();ONB.err='';renderMain()}},
-    h('h2',{class:'onb-h'},'Create your space'),
-    h('div',{class:'fgrid'},field('Your name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'name',placeholder:'e.g. Sam'})),field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',placeholder:'you@email.com'}))),
-    h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'The app uses words and sections that fit you. You can change it later.'),
-      h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';const f=$('#o-name'),e=$('#o-email');const keep=[f?.value,e?.value];renderMain();if(keep[0])$('#o-name').value=keep[0];if(keep[1])$('#o-email').value=keep[1]}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
-    h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex',checked:true}),h('span',null,'Start with a few examples I can delete later')),
-    ONB.err?h('div',{class:'notice bad'},icon('alert'),h('p',null,ONB.err)):null,
-    h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Create my space'),h('button',{class:'btn ghost',type:'button',onclick:()=>{ONB.step='welcome';ONB.err='';renderMain()}},'Back')),
-    h('p',{class:'small muted'},'Your space is saved on this phone for now. Log in with a password and sync across devices are coming in the next update.'));
-  m.replaceChildren(h('div',{class:'onb-wrap'},form));
+
+  /* someone picked their face on the start screen: ask their password */
+  if(ONB.step==='password'&&ONB.pick){
+    const a=acct(ONB.pick);if(!a){ONB.step='start';return renderOnboarding()}
+    return wrap(h('form',{class:'form onb-card',style:'text-align:center',onsubmit:async e=>{e.preventDefault();const pw=e.target.elements.pw.value;
+        if(a.hash&&(await hashPw(pw,a.salt))!==a.hash){ONB.err='That password doesn\'t match. Try again.';return renderMain()}
+        await enterAccount(a.email);finishEntry()}},
+      faceOf(a,'acct-face big'),h('h2',{class:'onb-h'},'Hi'+(a.name?', '+a.name.split(' ')[0]:'')),h('p',{class:'muted small'},a.email),
+      pwInput('pw','o-pw','Your password','current-password'),errBox(),
+      h('div',{class:'row',style:'justify-content:center'},h('button',{class:'btn primary onb-big',type:'submit'},'Sign in'),h('button',{class:'btn ghost',type:'button',onclick:()=>{ONB.pick=null;step('start')}},'Not you?'))));
+  }
+
+  /* sign in with email and password */
+  if(ONB.step==='signin'){
+    return wrap(h('form',{class:'form onb-card',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;const email=f.oemail.value.trim().toLowerCase(),pw=f.pw.value;
+        if(!isEmail(email)){ONB.err='Add the email you signed up with.';return keepVals(['o-email'],renderMain)}
+        const a=acct(email);
+        if(!a){ONB.err='There\'s no Daylo account with this email on this phone yet. Tap “Create an account” to make one. (Signing in from any phone comes with the next update.)';return keepVals(['o-email'],renderMain)}
+        if(a.hash&&(await hashPw(pw,a.salt))!==a.hash){ONB.err='That password doesn\'t match. Try again.';return keepVals(['o-email'],renderMain)}
+        await enterAccount(email);finishEntry()}},
+      h('h2',{class:'onb-h'},'Sign in'),
+      field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',inputmode:'email',placeholder:'you@email.com'})),
+      h('label',{class:'field'},h('span',null,'Password'),pwInput('pw','o-pw','Your password','current-password')),
+      errBox(),
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Sign in'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('create')},'Create an account'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back'))));
+  }
+
+  /* create an account */
+  if(ONB.step==='create'){
+    const ids=['o-name','o-email','o-pw'];
+    return wrap(h('form',{class:'form onb-card',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;
+        const name=f.oname.value.trim(),email=f.oemail.value.trim().toLowerCase(),pw=f.pw.value;
+        const bad=t=>{ONB.err=t;keepVals(ids,renderMain)};
+        if(!name)return bad('Add your name.');
+        if(!isEmail(email))return bad('Add a valid email. It\'s how you sign in.');
+        if(acct(email))return bad('This email already has an account on this phone. Go back and sign in.');
+        if(pw.length<6)return bad('Make a password with at least 6 characters.');
+        if(!ONB.role)return bad('Choose what you do, so Daylo fits you.');
+        const a={email,name,avatarId:null,theme:null,createdAt:Date.now()};ACCTS.push(a);await setPassword(a,pw);
+        await enterAccount(email);
+        if(f.examples.checked){loadDemo()}
+        const gm=/@(gmail|googlemail)\.com$/.test(email);
+        S.settings={...S.settings,name,accountEmail:email,gmailAddress:gm?email:(S.settings.gmailAddress||''),role:ONB.role,demo:!!f.examples.checked,joinedAt:Date.now(),onboarded:false,coverId:null,avatarId:null};
+        await persistNow();ONB.err='';renderMain()}},
+      h('h2',{class:'onb-h'},'Create your account'),
+      h('div',{class:'fgrid'},field('Your name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'name',placeholder:'e.g. Sam'})),
+        field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',inputmode:'email',placeholder:'you@email.com'}),'You sign in with this. If it\'s a Gmail, Daylo opens your emails there.')),
+      h('label',{class:'field'},h('span',null,'Password'),pwInput('pw','o-pw','At least 6 characters','new-password')),
+      h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'Daylo uses words and sections that fit you. You can change it later.'),
+        h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
+      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex'}),h('span',null,'Start with a few examples I can delete later')),
+      errBox(),
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Create my account'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back')),
+      h('p',{class:'small muted'},'Your account and everything in it are saved on this phone. Signing in from your other devices is coming next.')));
+  }
+
+  /* start screen */
+  const list=[...ACCTS].sort((a,b)=>(b.lastAt||0)-(a.lastAt||0));
+  wrap(ringLogo(),
+    h('p',{class:'onb-tag'},'Your days, gently in order.'),
+    h('p',{class:'onb-lead',style:'font-size:15px'},'Your week, your projects and your money, organized in one calm place.'),
+    list.length?h('div',{class:'acct-list'},h('div',{class:'small muted',style:'text-align:left'},'On this phone'),list.map(a=>h('button',{class:'acct',type:'button',onclick:async()=>{if(a.hash){ONB.pick=a.email;step('password')}else{await enterAccount(a.email);finishEntry()}}},
+      faceOf(a),h('span',{class:'grow'},h('b',null,a.name||a.email.split('@')[0]),h('span',null,a.email)),h('span',{class:'acct-go','aria-hidden':'true'},'›')))):null,
+    h('div',{class:'onb-actions'},
+      h('button',{class:'btn primary onb-big',onclick:()=>step('create')},'Create an account'),
+      h('button',{class:'btn onb-big',onclick:()=>step('signin')},'Sign in with email'),
+      h('button',{class:'btn ghost onb-big',onclick:async()=>{const em='examples@daylo.app';if(!acct(em)){ACCTS.push({email:em,name:'Example space',createdAt:Date.now()});await saveAccts()}await enterAccount(em);if(!S.campaigns.length){loadDemo();S.settings={...S.settings,name:'Example space',accountEmail:em,onboarded:true,demo:true};await persistNow()}finishEntry()}},'Look around with examples')),
+    h('p',{class:'small muted',style:'text-align:center'},'Free while we test. Nothing is ever sent anywhere without you.'));
 }
+
+function accountPanel(){
+  if(!ACCOUNTS_ON)return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Start over')),h('div',{class:'panel-body form'},h('div',{class:'row'},h('button',{class:'btn',onclick:e=>confirmDelete(e.currentTarget,()=>{COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();persist();renderSide();renderMain();toast('Cleared.')})},'Clear everything'))));
+  const a=acct(CUR)||{};
+  const pwForm=h('form',{class:'row',onsubmit:async e=>{e.preventDefault();const v=e.target.elements.npw.value;if(v.length<6){toast('Use at least 6 characters.');return}await setPassword(a,v);e.target.reset();toast('Password saved');renderMain()}},
+    h('input',{class:'input',name:'npw',type:'password',autocomplete:'new-password',placeholder:a.hash?'New password':'Make a password',style:'flex:1;min-width:160px'}),h('button',{class:'btn',type:'submit'},a.hash?'Change password':'Save password'));
+  return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your account')),h('div',{class:'panel-body form'},
+    h('div',{class:'kv'},h('span',null,'Email'),h('span',null,CUR||'Not set'),h('span',null,'What you do'),h('span',null,(ROLES.find(r=>r[0]===role())||[])[1]||''),h('span',null,'Password'),h('span',null,a.hash?'Set':'Not set yet. Add one so only you can open your space.')),
+    pwForm,
+    h('div',{class:'row'},h('button',{class:'btn',onclick:()=>signOut('Signed out. Your things are saved for next time.')},'Sign out'),
+      h('button',{class:'btn ghost',onclick:e=>confirmDelete(e.currentTarget,async()=>{const em=CUR;try{await IDB.del('state:'+em)}catch{}ACCTS=ACCTS.filter(x=>x.email!==em);await saveAccts();CUR=null;try{await IDB.del('cur')}catch{}COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();ONB={step:'start',role:'',err:'',pick:null,show:false};renderSide();renderMain();toast('Account deleted from this phone.')})},'Delete my account from this phone')),
+    h('p',{class:'small muted'},'Sign out lets a friend use Daylo on this phone with their own email. Your things stay saved under your email.')));
+}
+
 const baseRenderMain=renderMain;
-renderMain=function(){if(!S.booted){$('#main').replaceChildren();return}if(!S.settings.onboarded){renderOnboarding();return}document.body.classList.remove('onb');baseRenderMain()};
+renderMain=function(){if(!S.booted){$('#main').replaceChildren();return}if((ACCOUNTS_ON&&!CUR)||!S.settings.onboarded){renderOnboarding();return}document.body.classList.remove('onb','onb-start');baseRenderMain()};
 /* ===== Demo: example data so anyone with the link can try it ===== */
 function demoData(){
   const t=ymd(),d=n=>addDays(t,n),now=Date.now();
@@ -1686,13 +1955,27 @@ function demoBanner(){return h('div',{class:'notice info'},icon('spark'),h('div'
 
 renderAll();
 (async()=>{
+  try{ACCTS=(await IDB.get('accounts'))||[]}catch(e){console.error(e);toast('This browser is blocking site storage, so changes won\'t be kept.')}
+  if(ACCOUNTS_ON){
+    // move a space saved before accounts existed into its own account
+    try{const old=await IDB.get('state');
+      if(old&&old.settings&&(old.settings.onboarded||(old.campaigns||[]).length||(old.tasks||[]).length)){
+        const em=String(old.settings.accountEmail||old.settings.gmailAddress||'me@daylo.app').toLowerCase();
+        if(!acct(em)){ACCTS.push({email:em,name:old.settings.name||'',avatarId:old.settings.avatarId||null,theme:old.settings.theme||null,createdAt:Date.now()});await saveAccts()}
+        await IDB.set('state:'+em,{...old,settings:{...old.settings,onboarded:true,accountEmail:em}});await IDB.del('state');
+        if(!(await IDB.get('cur')))await IDB.set('cur',em)}}catch(e){console.error(e)}
+    let cur=null;try{cur=await IDB.get('cur')}catch{}
+    if(cur&&acct(cur))await enterAccount(cur);
+    for(const a of ACCTS)await loadImg(a.avatarId);
+  }else{
   try{const st=await IDB.get('state');if(st){COLLS.forEach(c=>{if(Array.isArray(st[c]))S[c]=st[c]});if(st.settings)S.settings=st.settings}}catch(e){console.error(e);toast('This browser is blocking site storage, so changes won\'t be kept.')}
+  }
   COLLS.forEach(c=>S.ready[c]=true);
-  if(!S.settings.onboarded&&(S.campaigns.length||S.tasks.length))S.settings.onboarded=true;
+  if(!ACCOUNTS_ON&&!S.settings.onboarded&&(S.campaigns.length||S.tasks.length))S.settings.onboarded=true;
   S.booted=true;
   C.assets=localAssets;
-  for(const k of ['coverId','avatarId']){const id=S.settings[k];if(id){try{const b=await IDB.get('img:'+id);if(b)S.imgs[id]=URL.createObjectURL(b)}catch{}}}
-  schedule();
+  await loadImg(S.settings.avatarId);await loadImg(S.settings.coverId);applyTheme();
+  schedule();setTimeout(()=>{notifyNow();updateBadge()},2500);
   if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 
