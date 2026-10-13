@@ -226,6 +226,41 @@ body.onb-start .top-right,body.onb-start .side{display:none!important}
 .ring-logo svg{position:absolute;inset:0;width:100%;height:100%}
 .ring-logo b{font:400 22px var(--f-body,sans-serif);letter-spacing:.42em;margin-left:.42em;font-family:"Jost",var(--f-body)}
 .onb-tag{font:300 28px/1.2 "Cormorant Garamond",var(--f-display);font-style:italic;max-width:18ch;text-align:center;margin:0}
+/* motion: a soft opening, like a first hello */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{opacity:0;transform:scale(.1)}65%{opacity:1;transform:scale(1.35)}100%{opacity:1;transform:scale(1)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes slidein{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+.intro .hero .eyebrow{animation:fadein .8s both .1s}
+.intro .greet-a{display:inline-block;animation:rise .9s cubic-bezier(.2,.7,.2,1) both .2s}
+.intro .greet .greet-b{display:inline-block;animation:rise .9s cubic-bezier(.2,.7,.2,1) both .5s}
+.intro .hero-me{animation:pop .7s both .4s}
+.intro .ring circle{transform-box:fill-box;transform-origin:center;animation:pop .55s cubic-bezier(.3,.8,.3,1) both;animation-delay:var(--d)}
+.intro .big,.intro .big-sub{animation:rise .8s both .45s}
+.intro .mini button{animation:slidein .7s cubic-bezier(.2,.7,.2,1) both}
+.intro .mini button:nth-child(1){animation-delay:1s}.intro .mini button:nth-child(2){animation-delay:1.15s}.intro .mini button:nth-child(3){animation-delay:1.3s}.intro .mini button:nth-child(4){animation-delay:1.45s}
+.mini{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.mini-ico{width:30px;height:30px;border-radius:50%;background:var(--green);display:grid;place-items:center;margin-bottom:10px}.mini-ico .ico{width:15px;height:15px}
+.mini .v{margin-top:4px!important}
+@media (max-width:760px){.mini.carousel{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-left:-16px;margin-right:-16px;padding:2px 16px 6px;scrollbar-width:none}
+  .mini.carousel::-webkit-scrollbar{display:none}
+  .mini.carousel button{flex:0 0 64%;scroll-snap-align:start;display:block!important}}
+/* welcome intro: rings draw, letters appear one by one */
+.ring-logo path{stroke-dasharray:1;animation:draw 1.6s cubic-bezier(.6,.1,.2,1) both}
+.ring-logo path:nth-child(2){animation-delay:.15s}.ring-logo path:nth-child(3){animation-delay:.3s}.ring-logo path:nth-child(4){animation-delay:.45s}
+.ring-logo b span{display:inline-block;animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.7s + var(--i) * .13s)}
+.onb-start .onb-tag{animation:rise .9s both 1.5s}
+.onb-start .onb-actions,.onb-start .acct-list{animation:rise .9s both 1.9s}
+.onb-card{animation:rise .6s both}
+/* fewer words: roles as pills, the description shows only for the one you pick */
+.role-grid{display:flex!important;flex-wrap:wrap;gap:8px}
+.role{border-radius:999px!important;padding:10px 16px!important;flex-direction:row!important;width:auto}
+.role b{font-size:14px!important;font-weight:500!important}
+.role span{display:none!important}
+.role-hint{margin:10px 0 0;font-size:13px;color:var(--muted);animation:fadein .4s both}
+.trust-mini{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:-4px 0 4px}.trust-mini .ico{width:16px;height:16px;color:var(--ok)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
 :root[data-theme="beige"]{--bg:#f3ede3;--side:#f8f3ea;--card:#fffcf6;--line:#e9e0d1;--line2:#ddd1bf;--muted:#8d8273;--avatar:#e9dfcd;--green:#efe7da;--green2:#e7dccb;--glass:rgba(255,251,243,.6);--glass-line:rgba(255,250,240,.9);--panel:rgba(255,251,244,.8);--blob-a:#ecd3b4;--blob-b:#e3d5bd;--blob-c:#f2e2cb;--dot:#d3c6b2;--cv-a:#efdcc4;--cv-b:#e6dcc9;color-scheme:light}
@@ -819,6 +854,7 @@ function renderMain(){
 function head(title,sub,...actions){return h('div',{class:'page-head'},h('div',null,h('h1',null,title),sub?h('p',null,sub):null),actions.length?h('div',{class:'row'},actions):null)}
 
 function pageToday(){
+  playIntro();
   const t=ymd(),week=addDays(t,7);
   const hr=new Date().getHours();const greet=(hr<12?'Good morning':hr<18?'Good afternoon':'Good evening')+(myName()?', '+myName().split(' ')[0]:'');
   if(S.gmailStatus!=='checking')watchList('deals',S.settings.dealQuery||DEAL_Q);
@@ -866,8 +902,8 @@ function dotRing(p){
   for(let y=-R0;y<=R0;y+=8)for(let x=-R0;x<=R0;x+=8){const d=Math.hypot(x,y);if(d<=R0&&Math.abs(d-48)>7)pts.push([c+x,c+y,d])}
   const N=36,on=Math.round(Math.max(0,Math.min(1,p))*N);
   return hs('svg',{class:'ring',viewBox:'0 0 200 200',role:'img','aria-label':Math.round(p*100)+'% of this week done'},
-    hs('g',null,pts.map(([x,y,d])=>hs('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:(1.25-d/R0*0.55).toFixed(2),fill:'var(--dot)'}))),
-    hs('g',null,Array.from({length:N},(_,i)=>{const a=-Math.PI/2+i/N*Math.PI*2;return hs('circle',{cx:(c+48*Math.cos(a)).toFixed(1),cy:(c+48*Math.sin(a)).toFixed(1),r:i<on?'3.4':'2.2',fill:i<on?'var(--fg)':'var(--line2)'})})));
+    hs('g',{class:'ring-bg'},pts.map(([x,y,d])=>hs('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:(1.25-d/R0*0.55).toFixed(2),fill:'var(--dot)',style:'--d:'+Math.round(d*7)+'ms'}))),
+    hs('g',{class:'ring-fg'},Array.from({length:N},(_,i)=>{const a=-Math.PI/2+i/N*Math.PI*2;return hs('circle',{cx:(c+48*Math.cos(a)).toFixed(1),cy:(c+48*Math.sin(a)).toFixed(1),r:i<on?'3.4':'2.2',fill:i<on?'var(--fg)':'var(--line2)',style:'--d:'+(500+i*28)+'ms'})})));
 }
 function todayHero(greet){
   const t=ymd(),ws=weekStartOf(t),we=addDays(ws,6);
@@ -878,15 +914,27 @@ function todayHero(greet){
   const av=blobUrl(S.settings.avatarId);
   const first=(myName()||'').split(' ')[0];
   return h('section',{class:'hero'},
-    S.settings.coverId?null:h('div',{class:'hero-top'},h('div',null,h('div',{class:'eyebrow'},new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})),h('h1',{class:'greet',style:'margin-top:10px'},h('span',{class:'greet-a'},(()=>{const hr=new Date().getHours();return hr<12?'Good morning,':hr<18?'Good afternoon,':'Good evening,'})()),h('br'),(first||'Friend')+'.'),C.assets&&!S.settings.coverId?h('button',{class:'btn sm ghost',style:'margin-top:10px;padding-left:0',onclick:()=>pickImage('cover')},icon('plus'),'Add a cover photo'):null),
+    S.settings.coverId?null:h('div',{class:'hero-top'},h('div',null,h('div',{class:'eyebrow'},new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})),h('h1',{class:'greet',style:'margin-top:10px'},h('span',{class:'greet-a'},(()=>{const hr=new Date().getHours();return hr<12?'Good morning,':hr<18?'Good afternoon,':'Good evening,'})()),h('br'),h('span',{class:'greet-b'},(first||'Friend')+'.')),C.assets&&!S.settings.coverId?h('button',{class:'btn sm ghost',style:'margin-top:10px;padding-left:0',onclick:()=>pickImage('cover')},icon('plus'),'Add a cover photo'):null),
       h('div',{class:'row',style:'flex-wrap:nowrap'},h('button',{class:'hero-me',title:C.assets?'Change your photo':'You',onclick:()=>C.assets?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your photo'}):initials(myName()||'You')))),
     dotRing(p),
     h('div',null,h('div',{class:'big tnum'},Math.round(p*100)+'%'),h('div',{class:'big-sub'},wk.length?'of this week done · '+dn+' of '+wk.length+' tasks':'Nothing planned this week yet'),
-      h('div',{class:'mini'},
-        h('button',{onclick:()=>{S.schedView='week';go('schedule');scrollToId('week')}},h('div',{class:'k'},'Current week'),h('div',{class:'v'},'Week '+wkNo)),
-        h('button',{onclick:()=>{go('schedule');scrollToId('today-plan')}},h('div',{class:'k'},'Late'),h('div',{class:'v',style:late.length?'color:var(--red)':''},late.length?late.length+(late.length===1?' task':' tasks'):'Nothing late')),
-        h('button',{onclick:()=>next?openTask(next):openTask(null)},h('div',{class:'k'},'Next deadline'+(next?' · '+fmtDay(next.due):'')),h('div',{class:'v'},next?next.title:'Add a task')))));
+      (()=>{const owed=S.invoices.filter(i=>i.status==='Sent');const card=(ic,k,v,fn,st)=>h('button',{onclick:fn},h('span',{class:'mini-ico'},icon(ic)),h('div',{class:'k'},k),h('div',{class:'v',style:st||''},v));
+        const el=h('div',{class:'mini carousel'},
+          card('schedule','Current week','Week '+wkNo,()=>{S.schedView='week';go('schedule');scrollToId('week')}),
+          card('alert','Late',late.length?late.length+(late.length===1?' task':' tasks'):'Nothing late',()=>{S.schedView='day';S.dayPick=null;go('schedule')},late.length?'color:var(--red)':''),
+          card('today','Next deadline'+(next?' · '+fmtDay(next.due):''),next?next.title:'Add a task',()=>next?openTask(next):openTask(null)),
+          card('payments','Waiting to be paid',owed.length?owed.length+(owed.length===1?' invoice':' invoices'):'All paid',()=>go('payments')));
+        startCarousel(el);return el})()));
 }
+let carT=null,carTouch=0;
+function startCarousel(el){clearInterval(carT);if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  ['pointerdown','touchstart','wheel'].forEach(ev=>el.addEventListener(ev,()=>{carTouch=Date.now()},{passive:true}));
+  carT=setInterval(()=>{if(!el.isConnected){clearInterval(carT);return}if(el.scrollWidth<=el.clientWidth+4||Date.now()-carTouch<6000||document.hidden)return;
+    const w=el.firstElementChild.getBoundingClientRect().width+12;const atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-4;el.scrollTo({left:atEnd?0:el.scrollLeft+w,behavior:'smooth'})},3200)}
+function introCount(){const b=document.querySelector('.intro .big');if(!b)return;const target=parseInt(b.textContent)||0;if(!target)return;const t0=performance.now();
+  const step=now=>{const k=Math.min(1,(now-t0)/1100);b.textContent=Math.round(target*(1-Math.pow(1-k,3)))+'%';if(k<1)requestAnimationFrame(step)};b.textContent='0%';requestAnimationFrame(step)}
+let introShown=false;
+function playIntro(){if(introShown||matchMedia('(prefers-reduced-motion: reduce)').matches)return;introShown=true;document.body.classList.add('intro');setTimeout(introCount,450);setTimeout(()=>document.body.classList.remove('intro'),3200)}
 function quickCards(){
   const card=(t,d,fn)=>h('button',{class:'glass-card',onclick:fn},h('h3',null,t),h('p',null,d),h('span',{class:'plus','aria-hidden':'true'},icon('plus')));
   return h('div',{class:'glass-row'},card('Plan a task','Add something to your week, big or small.',()=>openTask(null)),card('New '+V().one.toLowerCase(),'A '+V().party.toLowerCase()+' or project you’re working on.',()=>openCampaign(null)),card('Write an email','Draft it here; nothing goes out until you send it.',()=>openComposer({})));
@@ -1819,7 +1867,10 @@ function errBox(){return ONB.err?h('div',{class:'notice bad'},icon('alert'),h('p
 function keepVals(ids,fn){const v=ids.map(id=>{const e=document.getElementById(id);return e?e.value:''});fn();ids.forEach((id,i)=>{const e=document.getElementById(id);if(e&&v[i])e.value=v[i]})}
 
 function ringLogo(){const w=h('div',{class:'ring-logo','aria-label':'Daylo'});
-  w.innerHTML='<svg viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M28 62 A50 50 0 0 1 118 40" stroke-width="2.2"/><path d="M22 72 A54 54 0 0 1 112 30" stroke-width="1" opacity=".6"/><path d="M122 90 A50 50 0 0 1 32 110" stroke-width="2.2"/><path d="M128 80 A54 54 0 0 1 38 120" stroke-width="1" opacity=".6"/></svg><b>DAYLO</b>';return w}
+  w.innerHTML='<svg viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-linecap="round"><path pathLength="1" d="M28 62 A50 50 0 0 1 118 40" stroke-width="2.2"/><path pathLength="1" d="M22 72 A54 54 0 0 1 112 30" stroke-width="1" opacity=".6"/><path pathLength="1" d="M122 90 A50 50 0 0 1 32 110" stroke-width="2.2"/><path pathLength="1" d="M128 80 A54 54 0 0 1 38 120" stroke-width="1" opacity=".6"/></svg><b aria-hidden="true">'+'DAYLO'.split('').map((c,i)=>'<span style="--i:'+i+'">'+c+'</span>').join('')+'</b>';return w}
+function rolePicker(ids){return h('div',{class:'field'},h('span',null,'What do you do?'),
+  h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l)))),
+  ONB.role?h('p',{class:'role-hint'},ROLE_HINT[ONB.role]||''):null)}
 function renderOnboarding(){
   document.body.classList.add('onb');
   document.body.classList.toggle('onb-start',!CUR&&!['guest','create','signin','password'].includes(ONB.step));
@@ -1881,14 +1932,12 @@ function renderOnboarding(){
         S.settings={...S.settings,name,role:ONB.role,guest:true,demo:!!f.examples.checked,theme:'ivory',onboarded:true,joinedAt:Date.now(),accountEmail:'',gmailAddress:'',coverId:null,avatarId:null};
         await persistNow();finishEntry(true)}},
       h('h2',{class:'onb-h'},'Try Daylo'),
-      h('div',{class:'trust'},icon('check'),h('p',null,h('b',null,'No email. No password. '),'Everything you add stays on this phone. Nothing is shared or sent anywhere.')),
+      h('div',{class:'trust-mini'},icon('check'),'No email · No password · Stays on your phone'),
       field('Your first name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'given-name',placeholder:'e.g. Sam'})),
-      h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'Daylo changes its words and examples to fit you.'),
-        h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
-      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex',checked:true}),h('span',null,'Fill it with examples so I can see how it works')),
+      rolePicker(ids),
+      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex',checked:true}),h('span',null,'Show me examples')),
       errBox(),
-      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Start trying'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back')),
-      h('p',{class:'small muted'},'Like it? You can save your space with your email later, and keep everything.')));
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Start'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back'))));
   }
 
   /* create an account */
@@ -1910,29 +1959,26 @@ function renderOnboarding(){
         await persistNow();ONB.err='';renderMain()}},
       h('h2',{class:'onb-h'},'Create your account'),
       h('div',{class:'fgrid'},field('Your name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'name',placeholder:'e.g. Sam'})),
-        field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',inputmode:'email',placeholder:'you@email.com'}),'You sign in with this. If it\'s a Gmail, Daylo opens your emails there.')),
+        field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',inputmode:'email',placeholder:'you@email.com'}))),
       h('label',{class:'field'},h('span',null,'Password'),pwInput('pw','o-pw','At least 6 characters','new-password')),
-      h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'Daylo uses words and sections that fit you. You can change it later.'),
-        h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
-      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex'}),h('span',null,'Start with a few examples I can delete later')),
+      rolePicker(ids),
+      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex'}),h('span',null,'Show me examples')),
       errBox(),
-      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Create my account'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back')),
-      h('p',{class:'small muted'},'Your account and everything in it are saved on this phone. Signing in from your other devices is coming next.')));
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Create my account'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back'))));
   }
 
   /* start screen */
   const list=[...ACCTS].sort((a,b)=>(b.lastAt||0)-(a.lastAt||0));
   wrap(ringLogo(),
     h('p',{class:'onb-tag'},'Your days, gently in order.'),
-    h('p',{class:'onb-lead',style:'font-size:15px'},'Your week, your projects and your money, organized in one calm place.'),
     list.length?h('div',{class:'acct-list'},h('div',{class:'small muted',style:'text-align:left'},'On this phone'),list.map(a=>h('button',{class:'acct',type:'button',onclick:async()=>{if(a.hash){ONB.pick=a.email;step('password')}else{await enterAccount(a.email);finishEntry()}}},
       faceOf(a),h('span',{class:'grow'},h('b',null,a.name||a.email.split('@')[0]),h('span',null,a.guest?'Trying Daylo · no email':a.email)),h('span',{class:'acct-go','aria-hidden':'true'},'›')))):null,
     h('div',{class:'onb-actions'},
-      h('button',{class:'btn primary onb-big',onclick:()=>step('guest')},'Try it now, just your name'),
+      h('button',{class:'btn primary onb-big',onclick:()=>step('guest')},'Try Daylo'),
       h('button',{class:'btn onb-big',onclick:()=>step('create')},'Create an account'),
       h('button',{class:'btn ghost onb-big',onclick:()=>step('signin')},'Sign in with email'),
     ),
-    h('p',{class:'small muted',style:'text-align:center'},'Free while we test. Nothing is ever sent anywhere without you.'));
+    );
 }
 
 async function upgradeGuest(email,pw){const old=CUR;const a=acct(old);if(!a)return 'Something went wrong. Reload and try again.';
