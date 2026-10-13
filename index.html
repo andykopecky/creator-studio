@@ -280,6 +280,11 @@ body.onb-start .top-right,body.onb-start .side{display:none!important}
 .orb i{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(246,241,234,.28);background:rgba(255,255,255,.07);backdrop-filter:blur(6px);animation:bob 4.6s ease-in-out infinite;animation-delay:calc(var(--i) * -.7s)}
 .orb i .ico{width:19px;height:19px;stroke-width:1.4}
 .orb.hot i{background:#c8a97e;border-color:#c8a97e;color:#fff;width:50px;height:50px;animation:breathe 2.8s ease-in-out infinite}
+.fy-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;max-width:420px!important;margin-top:4px!important}
+.fy-l,.orb-l{display:none!important}
+.fy.hot .fy-ico,.orb.hot i{animation:none!important;box-shadow:0 8px 20px rgba(178,152,116,.3)}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-3px) scale(.985,1.02)}}
+.glass-card{min-height:0!important;padding:18px 20px!important}.glass-card h3{max-width:none!important}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
@@ -947,7 +952,7 @@ function todayHero(greet){
       h('div',{class:'row',style:'flex-wrap:nowrap'},h('button',{class:'hero-me',title:C.assets?'Change your photo':'You',onclick:()=>C.assets?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your photo'}):initials(myName()||'You')))),
     dotRing(p),
     h('div',null,h('div',{class:'big tnum'},Math.round(p*100)+'%'),h('div',{class:'big-sub'},wk.length?'of this week done · '+dn+' of '+wk.length+' tasks':'Nothing planned this week yet'),
-      (()=>{const owed=S.invoices.filter(i=>i.status==='Sent');const card=(ic,k,v,fn,st)=>h('button',{onclick:fn},h('span',{class:'mini-ico'},icon(ic)),h('div',{class:'k'},k),h('div',{class:'v',style:st||''},v));
+      (()=>{const owed=S.invoices.filter(i=>i.status==='Sent');const card=(ic,k,v,fn,st)=>h('button',{onclick:fn},h('div',{class:'k'},k),h('div',{class:'v',style:st||''},v));
         const el=h('div',{class:'mini carousel'},
           card('schedule','Current week','Week '+wkNo,()=>{S.schedView='week';go('schedule');scrollToId('week')}),
           card('alert','Late',late.length?late.length+(late.length===1?' task':' tasks'):'Nothing late',()=>{S.schedView='day';S.dayPick=null;go('schedule')},late.length?'color:var(--red)':''),
@@ -970,11 +975,11 @@ function forToday(){const t=ymd();let its=dayItems(t).filter(i=>i.k==='routine'?
   const short=s=>{const w=String(s||'').split(/\s+/).slice(0,2).join(' ');return w.length>14?w.slice(0,13)+'…':w};
   const tiles=its.map(i=>({ic:i.k==='routine'?'refresh':(TYPE_ICON2[i.x.type]||'spark'),l:i.k==='routine'?short(i.x.title):(i.x.type&&i.x.type!=='Other'?i.x.type:short(i.x.title)),fn:()=>i.k==='routine'?openRoutine(i.x):openTask(i.x),title:i.x.title}));
   const fill=[['coffee','Slow start',()=>openTask({type:'Plan',due:t,done:false})],['schedule','Plan',()=>openTask({type:'Plan',due:t,done:false})],['mail','Reply',()=>go('inbox')],['camera','Create',()=>openTask({type:'Film',due:t,done:false})],['payments','Money',()=>go('payments')],['heart','Rest',()=>toast('Good idea. Take a break today.')],['pen','Write',()=>openComposer({})],['hanger','Style',()=>openTask({type:'Other',due:t,done:false})]];
-  for(const [ic,l,fn] of fill){if(tiles.length>=8)break;if(!tiles.some(x=>x.l===l||x.ic===ic))tiles.push({ic,l,fn,soft:true})}
-  return h('section',{class:'foryou'},h('div',{class:'eyebrow',style:'text-align:center'},'For you today'),
-    h('div',{class:'fy-grid'},tiles.map((x,i)=>h('button',{class:'fy'+(i===0&&!x.soft?' hot':'')+(x.soft?' soft':''),style:'--i:'+i,title:x.title||x.l,onclick:x.fn},h('span',{class:'fy-ico'},icon(x.ic)),h('span',{class:'fy-l'},x.l)))));}
+  for(const [ic,l,fn] of fill){if(tiles.length>=5)break;if(!tiles.some(x=>x.l===l||x.ic===ic))tiles.push({ic,l,fn,soft:true})}
+  return h('section',{class:'foryou','aria-label':'For you today'},
+    h('div',{class:'fy-grid'},tiles.slice(0,5).map((x,i)=>h('button',{class:'fy'+(i===0&&!x.soft?' hot':'')+(x.soft?' soft':''),style:'--i:'+i,title:x.title||x.l,'aria-label':x.title||x.l,onclick:x.fn},h('span',{class:'fy-ico'},icon(x.ic))))));}
 function quickCards(){
-  const card=(t,d,fn)=>h('button',{class:'glass-card',onclick:fn},h('h3',null,t),h('p',null,d),h('span',{class:'plus','aria-hidden':'true'},icon('plus')));
+  const card=(t,d,fn)=>h('button',{class:'glass-card',onclick:fn,'aria-label':t+'. '+d},h('h3',null,t),h('span',{class:'plus','aria-hidden':'true'},icon('plus')));
   return h('div',{class:'glass-row'},card('Plan a task','Add something to your week, big or small.',()=>openTask(null)),card('New '+V().one.toLowerCase(),'A '+V().party.toLowerCase()+' or project you’re working on.',()=>openCampaign(null)),card('Write an email','Draft it here; nothing goes out until you send it.',()=>openComposer({})));
 }
 
@@ -1907,7 +1912,7 @@ function keepVals(ids,fn){const v=ids.map(id=>{const e=document.getElementById(i
 function ringLogo(){const w=h('div',{class:'ring-logo','aria-label':'Daylo'});
   w.innerHTML='<svg viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-linecap="round"><path pathLength="1" d="M28 62 A50 50 0 0 1 118 40" stroke-width="2.2"/><path pathLength="1" d="M22 72 A54 54 0 0 1 112 30" stroke-width="1" opacity=".6"/><path pathLength="1" d="M122 90 A50 50 0 0 1 32 110" stroke-width="2.2"/><path pathLength="1" d="M128 80 A54 54 0 0 1 38 120" stroke-width="1" opacity=".6"/></svg><b aria-hidden="true">'+'DAYLO'.split('').map((c,i)=>'<span style="--i:'+i+'">'+c+'</span>').join('')+'</b>';return w}
 function orbitLogo(){const o=[['schedule','Plan',62,8],['mail','Reply',217,22],['camera','Create',263,148],['payments','Paid',176,252],['refresh','Routine',43,228],['spark','Ideas',-3,101]];
-  return h('div',{class:'orbit'},ringLogo(),o.map(([ic,l,x,y],i)=>h('span',{class:'orb'+(i===2?' hot':''),style:'--i:'+i+';left:'+x+'px;top:'+y+'px','aria-hidden':'true'},h('i',null,icon(ic)),l)))}
+  return h('div',{class:'orbit'},ringLogo(),o.map(([ic,l,x,y],i)=>h('span',{class:'orb'+(i===2?' hot':''),style:'--i:'+i+';left:'+x+'px;top:'+y+'px','aria-hidden':'true'},h('i',null,icon(ic)))))}
 function rolePicker(ids){return h('div',{class:'field'},h('span',null,'What do you do?'),
   h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l)))),
   ONB.role?h('p',{class:'role-hint'},ROLE_HINT[ONB.role]||''):null)}
@@ -2091,7 +2096,7 @@ function demoData(){
     sent:[]};
 }
 function loadDemo(){const d=demoData();COLLS.forEach(c=>S[c]=d[c]||[]);S.settings=d.settings;persist();schedule()}
-function guestBanner(){if(typeof CUR==='undefined'||!CUR||typeof acct!=='function'||!(acct(CUR)||{}).guest)return null;return h('div',{class:'notice info'},icon('check'),h('div',{class:'grow'},h('p',null,h('b',null,'You’re trying Daylo. '),'No email needed. Everything stays on this phone.'),h('div',{class:'row',style:'margin-top:8px'},h('button',{class:'btn sm primary',onclick:()=>{go('settings');scrollToId('account')}},'Save my space with email'))))}
+function guestBanner(){if(typeof CUR==='undefined'||!CUR||typeof acct!=='function'||!(acct(CUR)||{}).guest)return null;return h('div',{class:'notice info',style:'align-items:center'},icon('check'),h('p',{class:'grow',style:'margin:0'},'Trying Daylo'),h('button',{class:'btn sm primary',onclick:()=>{go('settings');scrollToId('account')}},'Save with email'))}
 function demoBanner(){return h('div',{class:'notice info'},icon('spark'),h('div',{class:'grow'},h('p',null,h('b',null,'This is a demo with example data. '),'Try anything: add a '+V().one.toLowerCase()+', plan your week, write an email. Your changes stay in your browser only.'),
   h('div',{class:'row',style:'margin-top:10px;gap:6px'},h('span',{class:'small muted'},'Try it as:'),ROLES.map(([k,l])=>h('button',{class:'chip',style:role()===k?'background:var(--primary);color:var(--on-primary);border-color:var(--primary)':'',onclick:()=>{S.settings={...S.settings,role:k};persist();schedule()}},l))),
   h('div',{class:'row',style:'margin-top:8px'},h('button',{class:'btn sm primary',onclick:()=>{COLLS.forEach(c=>S[c]=[]);S.settings={demo:false,role:S.settings.role};persist();schedule();toast('Started fresh. Add your first deal.')}},'Start fresh with my own'),h('button',{class:'btn sm',onclick:()=>{loadDemo();toast('Example data restored')}},'Reset examples'))))}
