@@ -653,7 +653,7 @@ async function pitchPaid(c){
   let thread=null;
   if(c.threadId&&C.mcp){toast('Opening the email thread…');try{thread=await gm('get_thread',{threadId:c.threadId,messageFormat:'PLAIN_TEXT'},{cache:{staleTime:60000}})}catch{thread=null}}
   if(thread&&(thread.messages||[]).length)openComposer({mode:'reply',thread,campaign:c,autoAI:instr,upgradeFor:c.id});
-  else openComposer({to:c.contactEmail||'',campaign:c,autoAI:instr,upgradeFor:c.id,subject:'Paid collaboration: '+(myName()||'Andy')+' x '+c.brand});
+  else openComposer({to:c.contactEmail||'',campaign:c,autoAI:instr,upgradeFor:c.id,subject:'Paid collaboration: '+(myName()||'Me')+' x '+c.brand});
 }
 function stagePill(s){const cls={Lead:'plain',Pitched:'plain',Negotiating:'amber',Booked:'',Creating:'',Delivered:'ok','Needs review':'amber',Closed:'ok',Declined:'red'}[s]??'';return h('span',{class:'pill '+cls},s||'Lead')}
 function payPill(c){const s=c.payStatus||'Not invoiced';if(s==='Paid')return h('span',{class:'pill ok'},'Paid');if(s==='Invoiced')return h('span',{class:'pill amber'},'Invoiced');return h('span',{class:'pill plain'},'Not invoiced')}
@@ -701,6 +701,7 @@ function pageToday(){
   return h('div',{class:'page'},
     S.settings.coverId?coverBlock(greet):null,
     todayHero(greet),
+    S.settings.demo?demoBanner():null,
     !S.campaigns.length&&!S.tasks.length?welcomeCard():null,
     quickCards(),
     h('div',{class:'stats'},
@@ -1518,7 +1519,7 @@ function importData(){const inp=h('input',{type:'file',accept:'application/json,
       persist();schedule();toast('Imported '+n+' items')}
     catch{toast('That file isn\'t a Creator Studio backup.')}});
   document.body.append(inp);inp.click()}
-function welcomeCard(){return h('section',{class:'panel'},h('div',{class:'panel-body form'},h('h2',null,'Welcome to your Creator Studio'),h('p',{class:'muted'},'Bring in your brand deals, tasks and contacts. Choose the file “creator-studio-my-data.json”, or start fresh by adding a campaign.'),h('div',{class:'row'},h('button',{class:'btn primary',onclick:importData},'Import my data'),h('button',{class:'btn',onclick:()=>openCampaign(null)},icon('plus'),'Add a campaign'))))}
+function welcomeCard(){return h('section',{class:'panel'},h('div',{class:'panel-body form'},h('h2',null,'Welcome to your Creator Studio'),h('p',{class:'muted'},'Look around with example data, bring in your own backup file, or start empty.'),h('div',{class:'row'},h('button',{class:'btn primary',onclick:()=>{loadDemo();toast('Example data loaded')}},'Try with example data'),h('button',{class:'btn',onclick:importData},'Import my data'),h('button',{class:'btn',onclick:()=>openCampaign(null)},icon('plus'),'Start empty'))))}
 function pageSettings(){
   const st=S.settings;
   const form=h('form',{class:'form',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;await attempt(()=>saveSettings({role:f.role.value,name:f.name.value.trim(),gmailAddress:f.gmailAddress.value.trim().toLowerCase(),rates:f.rates.value.trim(),signature:f.signature.value,currency:f.currency.value,dealQuery:f.dealQuery.value.trim()}),'Settings saved')}},
@@ -1547,6 +1548,48 @@ function pageSettings(){
       h('div',{class:'item'},icon('inbox'),h('div',{class:'grow'},h('div',{class:'t'},'Gmail inbox inside the app'),h('div',{class:'small muted'},'Read and reply without leaving Creator Studio.'))),
       h('div',{class:'item'},icon('spark'),h('div',{class:'grow'},h('div',{class:'t'},'AI writing help'),h('div',{class:'small muted'},'Suggestions you choose to use, like in the Claude version.'))))));
 }
+/* ===== Demo: example data so anyone with the link can try it ===== */
+function demoData(){
+  const t=ymd(),d=n=>addDays(t,n),now=Date.now();
+  const c=(id,o)=>({id,createdAt:now,updatedAt:now,currency:'USD',payStatus:'Not invoiced',...o});
+  return {
+    settings:{name:'',currency:'USD',rates:'UGC video (15–30s): from $300\nInstagram Reel + 3 Stories: from $500',signature:'Best,\n[Your name]',demo:true},
+    campaigns:[
+      c('d-lumen',{brand:'Lumen Skincare',campaign:'Fall glow launch',contactEmail:'maya@example.com',stage:'Negotiating',dealType:'Paid',feeProposed:600,deliverables:'2 Reels + 3 Stories',notes:'Example deal. They offered $600; you asked about usage rights.'}),
+      c('d-northline',{brand:'Northline Denim',campaign:'Holiday edit',contactEmail:'sam@example.com',stage:'Booked',dealType:'Paid',feeConfirmed:900,dueDate:d(6),deliverables:'1 Reel + 6 photos',paymentTerms:'50% upfront, 50% on delivery',notes:'Example deal. Fee agreed in writing.'}),
+      c('d-solace',{brand:'Solace Swim',campaign:'Resort preview',contactEmail:'lea@example.com',stage:'Delivered',dealType:'Paid',feeConfirmed:450,payStatus:'Invoiced',notes:'Example deal. Content delivered, invoice sent.'}),
+      c('d-halo',{brand:'Halo Haircare',campaign:'Styling tutorial',contactEmail:'jo@example.com',stage:'Closed',dealType:'Paid',feeConfirmed:300,payStatus:'Paid',notes:'Example deal. Paid in full.'}),
+      c('d-mona',{brand:'Atelier Mona',campaign:'Knitwear gifting',contactEmail:'studio@example.com',stage:'Delivered',dealType:'Gifted',upgrade:'Not started',notes:'Example gifted collab. They loved the content, so a good one to pitch for a paid round.'}),
+      c('d-arlo',{brand:'Café Arlo',campaign:'New menu tasting',contactEmail:'hello@example.com',stage:'Creating',dealType:'Gifted',upgrade:'Not started',dueDate:d(3),deliverables:'1 Reel',notes:'Example gifted collab.'}),
+      c('d-verde',{brand:'Verde Home',campaign:'Intro call',contactEmail:'press@example.com',stage:'Lead',dealType:'Not set',notes:'Example lead. Not decided yet if gifted or paid.'}),
+      c('d-kiko',{brand:'Kiko Studio',campaign:'Collab pitch',contactEmail:'team@example.com',stage:'Pitched',dealType:'Not set',notes:'Example pitch, waiting for a reply.'})],
+    tasks:[
+      {id:'dt-1',title:'Reply to Maya (Lumen Skincare) about usage rights',type:'Reply',due:t,campaignId:'d-lumen',done:false},
+      {id:'dt-2',title:'Chase the Solace Swim payment',type:'Payment',due:d(-2),campaignId:'d-solace',done:false},
+      {id:'dt-3',title:'Film Northline Denim holiday edit',type:'Film',start:d(2),due:d(4),effort:'3',campaignId:'d-northline',done:false},
+      {id:'dt-4',title:'Edit and send Northline finals',type:'Edit',due:d(6),campaignId:'d-northline',done:false},
+      {id:'dt-5',title:'Send Café Arlo reel',type:'Send content',start:d(1),due:d(3),effort:'3',campaignId:'d-arlo',done:false},
+      {id:'dt-6',title:'Pitch a paid round to Atelier Mona',type:'Follow up',due:d(1),campaignId:'d-mona',done:false},
+      {id:'dt-7',title:'Plan next month’s content',type:'Plan',due:d(5),done:false}],
+    invoices:[
+      {id:'di-1',number:'INV-2026-001',client:'Solace Swim',clientEmail:'lea@example.com',description:'Resort preview content',amount:450,currency:'USD',issued:d(-30),due:d(-2),status:'Sent',campaignId:'d-solace'},
+      {id:'di-2',number:'INV-2026-002',client:'Halo Haircare',clientEmail:'jo@example.com',description:'Styling tutorial',amount:300,currency:'USD',issued:d(-40),due:d(-10),status:'Paid',paidOn:d(-12),campaignId:'d-halo'}],
+    contacts:[
+      {id:'dk-1',name:'Maya',email:'maya@example.com',brand:'Lumen Skincare',type:'Brand'},
+      {id:'dk-2',name:'Sam',email:'sam@example.com',brand:'Northline Denim',type:'Brand'},
+      {id:'dk-3',name:'Lea',email:'lea@example.com',brand:'Solace Swim',type:'Brand'},
+      {id:'dk-4',name:'Jo',email:'jo@example.com',brand:'Halo Haircare',type:'Brand'},
+      {id:'dk-5',name:'Studio team',email:'studio@example.com',brand:'Atelier Mona',type:'Brand'}],
+    routines:[
+      {id:'dr-1',title:'Pitch new brands',type:'Follow up',days:[1,4,5],active:true,doneDates:{}},
+      {id:'dr-2',title:'Check DMs and brand emails',type:'Reply',days:[1,2,3,4,5],active:true,doneDates:{}}],
+    sent:[]};
+}
+function loadDemo(){const d=demoData();COLLS.forEach(c=>S[c]=d[c]||[]);S.settings=d.settings;persist();schedule()}
+function demoBanner(){return h('div',{class:'notice info'},icon('spark'),h('div',{class:'grow'},h('p',null,h('b',null,'This is a demo with example data. '),'Try anything: add a '+V().one.toLowerCase()+', plan your week, write an email. Your changes stay in your browser only.'),
+  h('div',{class:'row',style:'margin-top:10px;gap:6px'},h('span',{class:'small muted'},'Try it as:'),ROLES.map(([k,l])=>h('button',{class:'chip',style:role()===k?'background:var(--primary);color:var(--on-primary);border-color:var(--primary)':'',onclick:()=>{S.settings={...S.settings,role:k};persist();schedule()}},l))),
+  h('div',{class:'row',style:'margin-top:8px'},h('button',{class:'btn sm primary',onclick:()=>{COLLS.forEach(c=>S[c]=[]);S.settings={demo:false,role:S.settings.role};persist();schedule();toast('Started fresh. Add your first deal.')}},'Start fresh with my own'),h('button',{class:'btn sm',onclick:()=>{loadDemo();toast('Example data restored')}},'Reset examples'))))}
+
 renderAll();
 (async()=>{
   try{const st=await IDB.get('state');if(st){COLLS.forEach(c=>{if(Array.isArray(st[c]))S[c]=st[c]});if(st.settings)S.settings=st.settings}}catch(e){console.error(e);toast('This browser is blocking site storage, so changes won\'t be kept.')}
