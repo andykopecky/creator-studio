@@ -212,7 +212,7 @@ a{color:var(--primary)}
 .eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
 /* welcome screen: mocha, thin ring logo, pill buttons (any theme) */
 body.onb-start{background:radial-gradient(120% 80% at 50% 0%,#8a7a6c 0%,#6b5d52 45%,#4f443c 100%) fixed;color:#f6f1ea}
-body.onb-start .blobs{display:none}
+body.onb-start .blobs{display:block}
 body.onb-start .onb-lead,body.onb-start .small.muted,body.onb-start .muted{color:rgba(246,241,234,.72)!important}
 body.onb-start .onb-title{color:#f6f1ea}
 body.onb-start .btn{background:rgba(255,255,255,.08);color:#f6f1ea;border:1px solid rgba(246,241,234,.38);backdrop-filter:blur(8px)}
@@ -285,6 +285,19 @@ body.onb-start .top-right,body.onb-start .side{display:none!important}
 .fy.hot .fy-ico,.orb.hot i{animation:none!important;box-shadow:0 8px 20px rgba(178,152,116,.3)}
 @keyframes bob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-3px) scale(.985,1.02)}}
 .glass-card{min-height:0!important;padding:18px 20px!important}.glass-card h3{max-width:none!important}
+/* motion lives in the background: warm shapes drifting slowly; icons and words stay still */
+@keyframes drift1{0%{transform:translate(0,0) scale(1) rotate(0)}50%{transform:translate(70px,60px) scale(1.18) rotate(25deg)}100%{transform:translate(-20px,120px) scale(.95) rotate(-10deg)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,-70px) scale(1.15)}100%{transform:translate(30px,-140px) scale(.9)}}
+@keyframes drift3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,50px) scale(1.25)}100%{transform:translate(50px,-30px) scale(.85)}}
+.blobs .b1{animation:drift1 24s ease-in-out infinite alternate!important}
+.blobs .b2{animation:drift2 28s ease-in-out infinite alternate!important}
+.blobs .b3{animation:drift3 20s ease-in-out infinite alternate!important}
+:root[data-theme="ivory"]{--blob-a:#dcc6a8;--blob-b:#d3bfa5;--blob-c:#e9d7bf}
+:root[data-theme="ivory"] .blobs i{opacity:.55}
+body.onb-start .blobs .b1{background:#a3907f;opacity:.55;width:380px;height:380px}
+body.onb-start .blobs .b2{background:#3b322b;opacity:.6;width:420px;height:380px}
+body.onb-start .blobs .b3{background:#c4a886;opacity:.3;width:280px;height:280px}
+.fy-ico,.orb i{animation:none!important}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
