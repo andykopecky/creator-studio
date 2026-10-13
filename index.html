@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Creator Studio: brand deals, schedule, payments and contacts for content creators.">
-<meta name="theme-color" content="#f4efe7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#191715" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f3f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Creator Studio">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -36,14 +35,14 @@ img{max-width:100%}
   --f-head:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,sans-serif;
   --f-display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){:root:not([data-theme]){
   --bg:#111111; --side:#151515; --card:#1b1b1b; --fg:#f2f2f0; --muted:#9a9a96; --line:#262626; --line2:#323232;
   --primary:#f2f2f0; --primary-h:#ffffff; --on-primary:#111111;
   --green:#202020; --green2:#2a2a2a; --amber:#3a3020; --amber-fg:#e9c27e; --red-bg:#3c2320; --red:#f0a090; --ok:#a9c79f; --avatar:#2e2e2e; --gift:#37262d; --gift-fg:#e7b3c2;
   --cv-a:#3a2a2a; --cv-b:#26302a; --cv-c:#1b1b1b; --cv-d:#222222;
   --glass:rgba(30,30,30,.55); --glass-line:rgba(255,255,255,.07); --panel:rgba(27,27,27,.82); --blob-a:#4a2a30; --blob-b:#2c3d28; --blob-c:#3a3326; --dot:#3a3a3a;
   --shadow:0 20px 50px rgba(0,0,0,.5); color-scheme:dark }}
-:root[data-theme="dark"]{
+:root[data-theme="dark"],:root[data-theme="night"]{
   --bg:#111111; --side:#151515; --card:#1b1b1b; --fg:#f2f2f0; --muted:#9a9a96; --line:#262626; --line2:#323232;
   --primary:#f2f2f0; --primary-h:#ffffff; --on-primary:#111111;
   --green:#202020; --green2:#2a2a2a; --amber:#3a3020; --amber-fg:#e9c27e; --red-bg:#3c2320; --red:#f0a090; --ok:#a9c79f; --avatar:#2e2e2e; --gift:#37262d; --gift-fg:#e7b3c2;
@@ -157,6 +156,39 @@ a{color:var(--primary)}
 .glass-card p{font-size:13px;color:var(--muted);max-width:28ch}
 .glass-card .plus{position:absolute;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 4px 14px rgba(20,20,20,.08)}
 @media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr);gap:18px}.hero-top h1{font-size:40px}.ring{width:200px;height:200px;margin:4px auto}.big{font-size:64px}.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini button:last-child{grid-column:1/-1}.glass-row{grid-template-columns:minmax(0,1fr)}.glass-card{min-height:132px}}
+/* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
+:root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
+:root[data-theme="beige"]{--bg:#f3ede3;--side:#f8f3ea;--card:#fffcf6;--line:#e9e0d1;--line2:#ddd1bf;--muted:#8d8273;--avatar:#e9dfcd;--green:#efe7da;--green2:#e7dccb;--glass:rgba(255,251,243,.6);--glass-line:rgba(255,250,240,.9);--panel:rgba(255,251,244,.8);--blob-a:#ecd3b4;--blob-b:#e3d5bd;--blob-c:#f2e2cb;--dot:#d3c6b2;--cv-a:#efdcc4;--cv-b:#e6dcc9;color-scheme:light}
+:root[data-theme="sage"]{--bg:#eef1eb;--side:#f4f6f1;--avatar:#dfe6d8;--green:#e6ece0;--blob-a:#c7dbb9;--blob-b:#d9e6cc;--blob-c:#e6ecd9;--dot:#bccab2;--cv-a:#dbe6d2;--cv-b:#cfdfc5;color-scheme:light}
+:root[data-theme="blush"]{--bg:#f6efef;--side:#faf4f4;--avatar:#f0dfe1;--green:#f3e7e8;--blob-a:#f1c4cc;--blob-b:#f3d6da;--blob-c:#f0e1e6;--dot:#dcc0c5;--cv-a:#f2d6da;--cv-b:#efdfe3;color-scheme:light}
+:root[data-theme="colorful"]{color-scheme:light}
+.theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.swatch{border:1.5px solid var(--line2);border-radius:18px;padding:8px 8px 10px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;gap:7px;align-items:stretch;text-align:left;font:inherit;color:var(--fg)}
+.swatch.on{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary) inset}
+.swatch i{display:block;height:46px;border-radius:12px;position:relative;overflow:hidden}
+.swatch i::before,.swatch i::after{content:"";position:absolute;width:34px;height:34px;border-radius:50%;filter:blur(6px)}
+.swatch i::before{left:4px;top:4px;background:var(--a)}.swatch i::after{right:4px;bottom:2px;background:var(--b)}
+.swatch b{font-size:13px;font-weight:600}.swatch span{font-size:11.5px;color:var(--muted);line-height:1.3}
+.onb-photo{width:116px;height:116px;border-radius:50%;border:2px dashed var(--line2);background:var(--card);display:grid;place-items:center;overflow:hidden;cursor:pointer;padding:0;margin:4px auto 0;color:var(--muted);font:500 13px var(--f-body)}
+.onb-photo img{width:100%;height:100%;object-fit:cover}
+@media (max-width:420px){.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.onb .side,.onb .tabbar{display:none!important}
+.onb .app{grid-template-rows:minmax(0,1fr)!important}
+.onb .main{padding-bottom:0!important}
+.onb-wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px 20px;max-width:580px;margin:0 auto;text-align:center}
+.onb-mark{width:72px;height:72px;border-radius:22px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;font:400 34px var(--f-display)}
+.onb-title{font-size:54px}
+.onb-lead{color:var(--muted);font-size:17px;max-width:36ch}
+.onb-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px}
+.onb-big{justify-content:center;padding:14px 22px;font-size:16px}
+.onb-card{text-align:left;width:100%;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--glass-line);border-radius:28px;padding:24px}
+.onb-h{font:400 34px var(--f-display)}
+.role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.role{border:1px solid var(--line2);background:var(--card);border-radius:16px;padding:12px 13px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:3px;color:var(--fg);font:inherit;min-width:0}
+.role b{font-size:14.5px;font-weight:600}
+.role span{font-size:12.5px;color:var(--muted)}
+.role.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.role.on span{color:var(--on-primary);opacity:.75}
 .type-hint{font-size:13px;color:var(--muted);font-weight:400;font-family:var(--f-body)}
 
 .main{overflow-y:auto;min-width:0}
@@ -564,12 +596,15 @@ $('#main').addEventListener('focusout',()=>{if(pending){setTimeout(()=>{const a=
 function go(p){page=p;try{history.replaceState(null,'','#'+p)}catch{}renderSide();renderMain();$('#main').scrollTop=0}
 
 /* ---------- sidebar ---------- */
-const ROLES=[['creator','Creator / influencer'],['stylist','Stylist'],['photographer','Photographer'],['designer','Designer'],['business','Small business'],['other','Something else']];
+const ROLES=[['creator','Creator / influencer'],['stylist','Stylist'],['photographer','Photographer'],['designer','Designer'],['business','Small business owner'],['employee','Employee'],['student','Student'],['personal','Personal life'],['other','Something else']];
 function role(){return S.settings.role||'creator'}
 function isCreator(){return role()==='creator'}
 function V(){const r=role();
   if(r==='creator')return{one:'Deal',many:'Deals',title:'Campaigns',party:'Brand',ph:'Brand name',proj:'Campaign',sub:'Paid and gifted deals are kept apart. Content status and payment status are tracked separately.'};
   if(r==='photographer')return{one:'Booking',many:'Bookings',title:'Bookings',party:'Client',ph:'Client name',proj:'Shoot',sub:'Every shoot, from first message to paid.'};
+  if(r==='employee')return{one:'Project',many:'Projects',title:'Projects',party:'Team or client',ph:'e.g. Marketing team',proj:'Project',sub:'Every project and deadline at work, in one calm place.'};
+  if(r==='student')return{one:'Assignment',many:'Assignments',title:'Assignments',party:'Class',ph:'e.g. Biology 101',proj:'Assignment',sub:'Every class, assignment and exam date, in one place.'};
+  if(r==='personal')return{one:'Goal',many:'Goals',title:'Goals',party:'Area of life',ph:'e.g. Home, Health, Travel',proj:'Goal',sub:'Your plans, errands and goals, organized without stress.'};
   const party=r==='business'?'Customer':'Client';
   return{one:'Project',many:'Projects',title:'Projects',party,ph:party+' name',proj:'Project',sub:'Every '+party.toLowerCase()+' and project, from first hello to paid.'}}
 const NAV=[['today','Today'],['inbox','Email'],['campaigns','Campaigns'],['schedule','Schedule'],['payments','Payments'],['contacts','Contacts'],['settings','Settings']];
@@ -593,7 +628,13 @@ function renderTabbar(){
     h('button',{class:'tab plus','aria-label':'Add something',onclick:quickAdd},icon('plus')),
     tab('campaigns','campaigns',V().many,0,()=>{S.campStages=null;go('campaigns')}),tab('more','more','More',c.payments,moreMenu));
 }
+/* ---------- themes ---------- */
+const THEMES=[['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
+function applyTheme(t){const v=t||S.settings.theme;const r=document.documentElement;if(v&&THEMES.some(x=>x[0]===v)){if(r.dataset.theme!==v)r.dataset.theme=v}else if(r.dataset.theme)delete r.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');if(m){const th=THEMES.find(x=>x[0]===v);m.content=th?th[3]:'#f3f3f1'}}
+function themePicker(cur,onPick){return h('div',{class:'theme-grid',role:'radiogroup','aria-label':'Theme'},THEMES.map(([k,l,d,bg,a,b])=>h('button',{type:'button',role:'radio','aria-checked':String(cur===k),class:'swatch'+(cur===k?' on':''),onclick:()=>onPick(k)},h('i',{style:'background:'+bg+';--a:'+a+';--b:'+b}),h('b',null,l),h('span',null,d))))}
+function lookPanel(){const cur=S.settings.theme||'colorful';return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your look')),h('div',{class:'panel-body form'},themePicker(cur,k=>{applyTheme(k);saveSettings({theme:k}).then(()=>renderMain()).catch(e=>toast(dbErrCopy(e)))})))}
 function renderSide(){
+  applyTheme();
   try{renderTabbar()}catch(e){console.error(e)}
   const c=counts();
   const nn=notifications().length;try{document.title=(nn?'('+nn+') ':'')+'Creator Studio'}catch{}
@@ -1050,6 +1091,7 @@ function pageSettings(){
   const g={ok:'Connected. Emails send from your own Gmail account.',checking:'Checking…',unknown:'Claude will ask you to allow Gmail the first time this app reads or sends mail.',reauth:'Your Gmail connection expired. Reconnect Gmail in claude.ai Settings → Connectors.',missing:'Gmail isn\'t connected. Add the Gmail connector in claude.ai Settings → Connectors.',none:'Gmail works only when this app is opened inside Claude.'}[S.gmailStatus];
   return h('div',{class:'page'},head('Settings','Your details and connections.'),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your details')),h('div',{class:'panel-body'},form)),
+    lookPanel(),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Connections')),h('div',{class:'list'},
       h('div',{class:'item'},icon('mail'),h('div',{class:'grow'},h('div',{class:'t'},'Gmail'),h('div',{class:'small muted'},canSend()&&S.gmailPerm==='granted'?'Connected and allowed. Emails send from your own Gmail account.':g),gmailHelp()?h('div',{style:'margin-top:8px'},gmailHelp()):null)),
       h('div',{class:'item'},icon('spark'),h('div',{class:'grow'},h('div',{class:'t'},'AI writing'),h('div',{class:'small muted'},C.sample?(S.aiOk===false?'Turned off for this app.':'Available. Claude asks once before the first use.'):'Available only when this app is open inside Claude.'))),
@@ -1534,6 +1576,8 @@ function pageSettings(){
     h('div',{class:'row'},h('button',{class:'btn primary',type:'submit'},'Save settings')));
   return h('div',{class:'page'},head('Settings','Your details, your data and installing the app.'),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your details')),h('div',{class:'panel-body'},form)),
+    lookPanel(),
+    h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your account')),h('div',{class:'panel-body form'},h('div',{class:'kv'},h('span',null,'Email'),h('span',null,S.settings.accountEmail||'Not set'),h('span',null,'What you do'),h('span',null,(ROLES.find(r=>r[0]===role())||[])[1]||'')),h('div',{class:'row'},h('button',{class:'btn',onclick:e=>confirmDelete(e.currentTarget,()=>{COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();persist();S.booted=true;ONB={step:'welcome',role:'',err:''};renderSide();renderMain();toast('Signed out. Your space on this phone was cleared.')})},'Sign out and clear this phone')))),
     h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your data')),h('div',{class:'panel-body form'},
       h('p',{class:'small muted'},'Everything is saved on this device, in this browser. Nobody else can see it. Your laptop and phone don’t share data yet; syncing comes in the next step. Download a backup now and then.'),
       h('div',{class:'row'},h('button',{class:'btn',onclick:exportData},'Download backup'),h('button',{class:'btn',onclick:importData},'Import data')))),
@@ -1548,6 +1592,56 @@ function pageSettings(){
       h('div',{class:'item'},icon('inbox'),h('div',{class:'grow'},h('div',{class:'t'},'Gmail inbox inside the app'),h('div',{class:'small muted'},'Read and reply without leaving Creator Studio.'))),
       h('div',{class:'item'},icon('spark'),h('div',{class:'grow'},h('div',{class:'t'},'AI writing help'),h('div',{class:'small muted'},'Suggestions you choose to use, like in the Claude version.'))))));
 }
+
+/* ---------- onboarding: first screen for new people ---------- */
+S.booted=false;
+let ONB={step:'welcome',role:'',err:''};
+const ROLE_HINT={creator:'Brand deals, content and payments',stylist:'Clients, shoots and looks',photographer:'Bookings, shoots and editing',designer:'Clients, projects and deadlines',business:'Customers, orders and money',employee:'Work projects and deadlines',student:'Classes, assignments and exams',personal:'Home, errands and goals',other:'Anything you want to organize'};
+function renderOnboarding(){
+  document.body.classList.add('onb');
+  const m=$('#main');
+  if(ONB.step==='welcome'){
+    m.replaceChildren(h('div',{class:'onb-wrap'},
+      h('div',{class:'onb-mark'},'Cs'),
+      h('h1',{class:'onb-title'},'Creator Studio'),
+      h('p',{class:'onb-lead'},'Everything you have to do, in one calm place. Your week, your projects and your money, organized for you.'),
+      h('div',{class:'onb-actions'},h('button',{class:'btn primary onb-big',onclick:()=>{ONB.step='form';renderMain()}},'Create my space'),h('button',{class:'btn onb-big',onclick:()=>{loadDemo();S.settings={...S.settings,onboarded:true,demo:true};persist();renderMain();renderSide()}},'Look around with examples')),
+      h('p',{class:'small muted',style:'text-align:center'},'Free while we test. Nothing is sent anywhere without you.')));
+    return;
+  }
+  if(S.settings.onbStep==='look'){
+    const st=S.settings,av=blobUrl(st.avatarId),cur=st.theme||'colorful',first=(st.name||'').split(' ')[0];
+    const finish=()=>{const{onbStep,...rest}=S.settings;S.settings={...rest,theme:S.settings.theme||'colorful',onboarded:true};persist();ONB={step:'welcome',role:'',err:''};document.body.classList.remove('onb');renderSide();go('today');toast('Welcome'+(first?', '+first:'')+'!')};
+    m.replaceChildren(h('div',{class:'onb-wrap'},h('div',{class:'form onb-card'},
+      h('h2',{class:'onb-h'},'Make it yours'),
+      h('div',{class:'field'},h('span',null,'Add your photo'),h('small',null,'Pick one from your phone. Your phone will ask if Creator Studio can open your photos. Say yes only if you want to. The photo stays on this phone.'),
+        h('button',{type:'button',class:'onb-photo',onclick:()=>pickImage('avatar'),'aria-label':av?'Change your photo':'Add your photo'},av?h('img',{src:av,alt:'Your photo'}):h('span',null,icon('plus'),h('br'),'Add photo')),
+        av?h('div',{class:'row',style:'justify-content:center'},h('button',{type:'button',class:'btn sm ghost',onclick:()=>removeImage('avatar')},'Remove photo')):null),
+      h('div',{class:'field'},h('span',null,'Pick your colors'),h('small',null,'Tap one to preview it. You can change it anytime in Settings.'),
+        themePicker(cur,k=>{S.settings={...S.settings,theme:k};applyTheme(k);persist();renderMain()})),
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'button',onclick:finish},'Done, take me in'),h('button',{class:'btn ghost',type:'button',onclick:finish},'Skip for now')))));
+    return;
+  }
+  const form=h('form',{class:'form onb-card',onsubmit:e=>{e.preventDefault();const f=e.target.elements;
+      const name=f.oname.value.trim(),email=f.oemail.value.trim().toLowerCase();
+      if(!name){ONB.err='Add your name.';return renderMain()}
+      if(!validEmail(email)){ONB.err='Add a valid email so we can save your space.';return renderMain()}
+      if(!ONB.role){ONB.err='Choose what you do, so the app fits you.';return renderMain()}
+      if(f.examples.checked)loadDemo();
+      S.settings={...S.settings,name,accountEmail:email,role:ONB.role,onbStep:'look',demo:!!f.examples.checked,joinedAt:Date.now()};
+      persist();ONB.err='';renderMain()}},
+    h('h2',{class:'onb-h'},'Create your space'),
+    h('div',{class:'fgrid'},field('Your name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'name',placeholder:'e.g. Sam'})),field('Email',h('input',{class:'input',name:'oemail',id:'o-email',type:'email',autocomplete:'email',placeholder:'you@email.com'}))),
+    h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'The app uses words and sections that fit you. You can change it later.'),
+      h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';const f=$('#o-name'),e=$('#o-email');const keep=[f?.value,e?.value];renderMain();if(keep[0])$('#o-name').value=keep[0];if(keep[1])$('#o-email').value=keep[1]}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
+    h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex',checked:true}),h('span',null,'Start with a few examples I can delete later')),
+    ONB.err?h('div',{class:'notice bad'},icon('alert'),h('p',null,ONB.err)):null,
+    h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Create my space'),h('button',{class:'btn ghost',type:'button',onclick:()=>{ONB.step='welcome';ONB.err='';renderMain()}},'Back')),
+    h('p',{class:'small muted'},'Your space is saved on this phone for now. Log in with a password and sync across devices are coming in the next update.'));
+  m.replaceChildren(h('div',{class:'onb-wrap'},form));
+}
+const baseRenderMain=renderMain;
+renderMain=function(){if(!S.booted){$('#main').replaceChildren();return}if(!S.settings.onboarded){renderOnboarding();return}document.body.classList.remove('onb');baseRenderMain()};
 /* ===== Demo: example data so anyone with the link can try it ===== */
 function demoData(){
   const t=ymd(),d=n=>addDays(t,n),now=Date.now();
@@ -1594,6 +1688,8 @@ renderAll();
 (async()=>{
   try{const st=await IDB.get('state');if(st){COLLS.forEach(c=>{if(Array.isArray(st[c]))S[c]=st[c]});if(st.settings)S.settings=st.settings}}catch(e){console.error(e);toast('This browser is blocking site storage, so changes won\'t be kept.')}
   COLLS.forEach(c=>S.ready[c]=true);
+  if(!S.settings.onboarded&&(S.campaigns.length||S.tasks.length))S.settings.onboarded=true;
+  S.booted=true;
   C.assets=localAssets;
   for(const k of ['coverId','avatarId']){const id=S.settings[k];if(id){try{const b=await IDB.get('img:'+id);if(b)S.imgs[id]=URL.createObjectURL(b)}catch{}}}
   schedule();
