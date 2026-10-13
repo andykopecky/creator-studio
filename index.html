@@ -255,7 +255,7 @@ body.onb-start .top-right,body.onb-start .side{display:none!important}
 .ring-logo b span{display:inline-block;animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.7s + var(--i) * .13s)}
 .onb-start .onb-tag{animation:rise .9s both 1.5s}
 .onb-start .onb-actions,.onb-start .acct-list{animation:rise .9s both 1.9s}
-.onb-card{animation:rise .6s both}
+.onb-wrap.anim .onb-card{animation:rise .6s both}
 /* fewer words: roles as pills, the description shows only for the one you pick */
 .role-grid{display:flex!important;flex-wrap:wrap;gap:8px}
 .role{border-radius:999px!important;padding:10px 16px!important;flex-direction:row!important;width:auto}
@@ -2094,7 +2094,7 @@ function rolePicker(ids){return h('div',{class:'field'},h('span',null,'What do y
 function renderOnboarding(){
   document.body.classList.add('onb');
   document.body.classList.toggle('onb-start',!CUR&&!['guest','create','signin','password'].includes(ONB.step));
-  const m=$('#main');const wrap=(...k)=>m.replaceChildren(h('div',{class:'onb-wrap'},...k));
+  const m=$('#main');const anim=ONB.lastStep!==ONB.step+'|'+(CUR||'');ONB.lastStep=ONB.step+'|'+(CUR||'');const wrap=(...k)=>m.replaceChildren(h('div',{class:'onb-wrap'+(anim?' anim':'')},...k));
   const step=s=>{ONB.step=s;ONB.err='';renderMain()};
 
   /* signed in, still setting up: photo, cover and colors */
