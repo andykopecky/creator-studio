@@ -8,6 +8,14 @@
 <meta property="og:title" content="Daylo · AI Assistant">
 <meta property="og:description" content="Your days, gently in order. Try it with just your name.">
 <meta property="og:site_name" content="Daylo">
+<meta property="og:image" content="https://andykopecky.github.io/creator-studio/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://andykopecky.github.io/creator-studio/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daylo · AI Assistant">
+<meta name="application-name" content="Daylo">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Daylo">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -21,7 +29,7 @@ body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
 </style>
-<title>Daylo</title>
+<title>Daylo · AI Assistant</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap">
@@ -1052,7 +1060,7 @@ function renderSide(){
   applyTheme();
   try{renderTabbar()}catch(e){console.error(e)}
   const c=counts();
-  const nn=notifications().length;try{document.title=(nn?'('+nn+') ':'')+'Daylo'}catch{}
+  const nn=notifications().length;try{document.title=(nn?'('+nn+') ':'')+'Daylo · AI Assistant'}catch{}
   const needAllow=C.mcp&&S.gmailPerm&&S.gmailPerm!=='granted'&&S.gmailStatus!=='ok'&&S.gmailStatus!=='missing'&&S.gmailStatus!=='reauth';
   const gs={compose:['ok','Emails open in your Gmail'],ok:['ok','Gmail connected'],checking:['','Checking Gmail…'],unknown:['warn','Gmail asks on first use'],reauth:['bad','Reconnect Gmail'],missing:['bad','Gmail not connected'],none:['bad','Gmail unavailable here']}[S.gmailStatus]||['','Gmail'];
   const ds={device:['ok','Saved on this device'],db:['ok','Saving to your account'],memory:['warn','Not saving: open in Claude'],checking:['','Loading your data…']}[S.dbStatus]||['',''];
