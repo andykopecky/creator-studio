@@ -256,6 +256,8 @@ body.onb-start .top-right,body.onb-start .side{display:none!important}
 .acct-face img,.onb-photo img{width:100%;height:100%;object-fit:cover}
 .acct-face.big{width:96px;height:96px;font-size:38px;margin:0 auto}
 .pw-row{display:flex;gap:8px;align-items:center}.pw-row .input{flex:1;min-width:0}
+.trust{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:var(--green)}.trust p{margin:0;font-size:13.5px}.trust .ico{width:18px;height:18px;margin-top:2px;color:var(--ok)}
+.share-qr{width:min(78vw,300px);height:auto;border-radius:24px;image-rendering:pixelated;box-shadow:0 0 0 1px var(--line)}
 .onb .side,.onb .tabbar{display:none!important}
 .onb .app{grid-template-rows:minmax(0,1fr)!important}
 .onb .main{padding-bottom:0!important}
@@ -707,7 +709,7 @@ function openSheet(title,items){
     items.filter(Boolean).map(([ic,label,sub,fn])=>h('button',{class:'mi',onclick:()=>{close();fn()}},icon(ic),h('span',null,label,sub?h('small',null,sub):null)))));
 }
 function quickAdd(){openSheet('Add',[['schedule','Task','Something to do, with a date',()=>openTask(null)],['campaigns',V().one,'A new '+V().party.toLowerCase()+' '+V().one.toLowerCase(),()=>openCampaign(null)],['mail','Email','Write and review an email',()=>openComposer({})],['refresh','Routine','Something you do every week',()=>openRoutine(null)],['payments','Invoice','Ask a client to pay you',()=>openInvoice(null)],['contacts','Tester','Someone who wants to try the app',()=>openContact({type:'Tester',work:''})]])}
-function moreMenu(){const c=counts();openSheet('More',[['inbox','Email',null,()=>go('inbox')],['payments','Payments',c.payments?c.payments+' overdue':null,()=>go('payments')],['contacts','Contacts',null,()=>go('contacts')],['bell','Notifications',notifications().length+' to look at',openNotifications],['settings','Settings',null,()=>go('settings')]])}
+function moreMenu(){const c=counts();openSheet('More',[['inbox','Email',null,()=>go('inbox')],['payments','Payments',c.payments?c.payments+' overdue':null,()=>go('payments')],['contacts','Contacts',null,()=>go('contacts')],['bell','Notifications',notifications().length+' to look at',openNotifications],['settings','Settings',null,()=>go('settings')],...(typeof shareDaylo==='function'?[['spark','Share Daylo','Show a QR code to a friend',shareDaylo]]:[])])}
 function renderTabbar(){
   const c=counts();const cur=['today','schedule','campaigns'].includes(page)?page:'more';
   const tab=(k,ic,l,n,fn)=>h('button',{class:'tab','aria-current':cur===k?'page':null,'aria-label':l+(n?', '+n+' need attention':''),onclick:fn},icon(ic),h('span',{class:'lbl'},l),n?h('span',{class:'count'},n):null);
@@ -835,7 +837,7 @@ function pageToday(){
   return h('div',{class:'page'},
     S.settings.coverId?coverBlock(greet):null,
     todayHero(greet),
-    S.settings.demo?demoBanner():null,
+    guestBanner()||(S.settings.demo?demoBanner():null),
     !S.campaigns.length&&!S.tasks.length?welcomeCard():null,
     quickCards(),
     h('div',{class:'stats'},
@@ -1728,6 +1730,20 @@ function pageSettings(){
       h('div',{class:'item'},icon('spark'),h('div',{class:'grow'},h('div',{class:'t'},'AI writing help'),h('div',{class:'small muted'},'Suggestions you choose to use, like in the Claude version.'))))));
 }
 
+/* ---------- share Daylo: a QR code friends can scan from your screen ---------- */
+const TRY_URL='https://andykopecky.github.io/creator-studio/?try=1';
+const TRY_QR='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAIAAACZDnMXAAAHLklEQVR4nO3dMW4kNxCG0V8L382B0z2mUwc+mAJBibONlgJoVHWRo/fCxaCnt0f4QIBs8u3z4z3A9/Zj+gaAeUIACAEgBECEAIgQABECIEIARAiACAEQIQAiBECEAIgQABECIEIARAiACAEQIQAiBECEAIgQABECIMkfVRf6+defVZdq9fc///7231f3v/r8rqrr715n6nfp/n9NXec0VX+fRgSAEABCAEQIgAgBECEAIgRACtcRrFTNc+7anQc+bb56dZ2qdRBVz2d1nap5+O71Hbtu+XveZUQACAEgBECEAIgQABECIEIA5IF1BCtV86Ld+wXsfm/3fG/39XefZ/d7/lX3M7XfxK6pdQpGBIAQAEIARAiACAEQIQAiBEAG1xG8qqr1Bbfsq7/SvV5g19T8/C2MCAAhAIQAiBAAEQIgQgBECIBYR/BL9/x/93kEp+23f9p6CusIvmZEAAgBIARAhACIEAARAiBCAGRwHcFp87re///6OqvPd6+PqNK9/uK0v+ddRgSAEABCAEQIgAgBECEAIgRAHlhHcPv8/NQ+Ard/vspp6xRu/3teMSIAhAAQAiBCAEQIgAgBECEAUriO4Pb3sauctg//1LkMVfdTZfd5fre/ZyMCQAgAIQAiBECEAIgQABECIMnb58d76xdMvSfP/1P1nLuvs3LaOoWp8yZ2GREAQgAIARAhACIEQIQAiBAAKdyP4LT52123nAtw+zqLqX0WVrqf2+71p34vIwJACAAhACIEQIQAiBAAEQIghesIVrr3w79l/nzXafs4TK13WH1+6r39V/17MyIAhAAQAiBCAEQIgAgBECEAUniuwdT79reY+n+ddh7BLfs4dF9n9/orzjUAyggBIASAEAARAiBCAEQIgBTuR3DL/POu097Dn9pHoMrUuonTnufudbqfmxEBIASAEAARAiBCAEQIgAgBkAf2I9h1+/v5r7quYfd+pvYdqHLac9j93l1GBIAQAEIARAiACAEQIQAiBEAO3I+gSvd8bNXnb5lvP209xdQ5BbesL9hlRAAIASAEQIQAiBAAEQIgQgDkwP0Idp02b1xlav/87uvfsi/DlKn7NCIAhAAQAiBCAEQIgAgBECEAUrgfwUr3PHb3++Hd19m1e/1b5u2n9heYus7K1D4URgSAEABCAEQIgAgBECEAIgRAHlhHsLI7Lzp1LkDV+oWVW847qPq9qtz+fE5jRAAIASAEQIQAiBAAEQIgQgCk8FyDlan51Vv24b9lPnzK1Dz8LftT2I8AKCMEgBAAQgBECIAIARAhAHLRuQYrVfPwK7fMz98+/191XkPV73XaOQ7dv68RASAEgBAAEQIgQgBECIAIAZAH1hFMzfN3n18wdf/dbtmvYddp8/an/e5GBIAQAEIARAiACAEQIQAiBEAeONeg29R74N3zwFP7KdxyDsXU+Q5Tz7P7/2tEAAgBIARAhACIEAARAiBCAKRwHcHU/PPKafP5Vd875ZZ5++7vPW2fAusIgDJCAAgBIARAhACIEAARAiCF5xp074d/2v4Cr7o+Ylf3/gi739v9u3T/nTjXABgjBIAQAEIARAiACAEQIQBSuI5gpXueueq98dvXF6xU3f9pz6H73IepdS67169iRAAIASAEQIQAiBAAEQIgQgDkgXUEK1PzzN3Xn5rHXul+T/609QWnmVrnssuIABACQAiACAEQIQAiBECEAEjhOoLuec6pc+lXTnsPf9ernkdwy/kapzEiAIQAEAIgQgBECIAIARAhAJK8fX68t35B1fz/1Dz21Hn1u7rnt295DitT6wuq2I8AaCcEgBAAQgBECIAIARAhAPLAfgQrU/v5V32++/6nzk047TyIW/azOG2/jF1GBIAQAEIARAiACAEQIQAiBEAe2I/gFrfsUzB1P1Xz/7es19g1te+D/QiAMkIACAEgBECEAIgQABECIIP7EUypmtedmldfmXrP/7TnUOX2/RF2GREAQgAIARAhACIEQIQAiBAAKVxHsNK9H/vK1PvqVZ+fuv/T3vOvuv7Ue/67ptZZGBEAQgAIARAhACIEQIQAiBAAKTzX4FXfw5/aj2Dq81VO2+f/tPf/p9YprBgRAEIACAEQIQAiBECEAIgQAHlgP4Jb7M4zT83nd8+Td7+3P3VewO3nL3Q/NyMCQAgAIQAiBECEAIgQABECINYR/DI1b3zLfgGrz3evOzhtPr/qfqZ+9xUjAkAIACEAIgRAhACIEAARAiCD6whO29e9e1596v9b9b23rLOoWu/QvT5iV/f1jQgAIQCEAIgQABECIEIARAiAPLCO4LRz6VdumW/v3v//u5k6T2H3OivONQDKCAEgBIAQABECIEIARAiAJG+fH+/T9wAMMyIAhAAQAiBCAEQIgAgBECEAIgRAhACIEAARAiBCAEQIgAgBECEAIgRAhACIEAARAiBCAEQIgAgBECEAkvwHdYzlXNzbim0AAAAASUVORK5CYII=';
+function shareDaylo(){
+  openDrawer('Share Daylo',h('div',{class:'form',style:'align-items:center;text-align:center'},
+    h('p',{class:'muted'},'Ask your friend to point their phone camera here. Daylo opens on their phone, and they can try it with just their name.'),
+    h('img',{src:TRY_QR,alt:'QR code to try Daylo',class:'share-qr'}),
+    h('p',{class:'small muted',style:'word-break:break-all'},TRY_URL),
+    h('div',{class:'row',style:'justify-content:center'},
+      navigator.share?h('button',{class:'btn primary',onclick:()=>navigator.share({title:'Daylo',text:'Try Daylo, my app for keeping your days in order:',url:TRY_URL}).catch(()=>{})},icon('send'),'Send the link'):null,
+      h('button',{class:'btn',onclick:async()=>{try{await navigator.clipboard.writeText(TRY_URL);toast('Link copied')}catch{toast(TRY_URL)}}},'Copy link'))),
+    [h('button',{class:'btn',onclick:closeDrawer},'Close')]);
+}
+
 /* ---------- phone notifications and the app icon badge ---------- */
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
@@ -1806,7 +1822,7 @@ function ringLogo(){const w=h('div',{class:'ring-logo','aria-label':'Daylo'});
   w.innerHTML='<svg viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M28 62 A50 50 0 0 1 118 40" stroke-width="2.2"/><path d="M22 72 A54 54 0 0 1 112 30" stroke-width="1" opacity=".6"/><path d="M122 90 A50 50 0 0 1 32 110" stroke-width="2.2"/><path d="M128 80 A54 54 0 0 1 38 120" stroke-width="1" opacity=".6"/></svg><b>DAYLO</b>';return w}
 function renderOnboarding(){
   document.body.classList.add('onb');
-  document.body.classList.toggle('onb-start',!(CUR&&!S.settings.onboarded));
+  document.body.classList.toggle('onb-start',!CUR&&!['guest','create','signin','password'].includes(ONB.step));
   const m=$('#main');const wrap=(...k)=>m.replaceChildren(h('div',{class:'onb-wrap'},...k));
   const step=s=>{ONB.step=s;ONB.err='';renderMain()};
 
@@ -1853,6 +1869,28 @@ function renderOnboarding(){
       h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Sign in'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('create')},'Create an account'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back'))));
   }
 
+  /* try it with just a name: no email, no password */
+  if(ONB.step==='guest'){
+    const ids=['o-name'];
+    return wrap(h('form',{class:'form onb-card',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;const name=f.oname.value.trim();
+        if(!name){ONB.err='Add your first name so Daylo can greet you.';return keepVals(ids,renderMain)}
+        if(!ONB.role){ONB.err='Choose what you do, so Daylo shows you the right things.';return keepVals(ids,renderMain)}
+        const id='guest-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+        ACCTS.push({email:id,name,guest:true,avatarId:null,theme:null,createdAt:Date.now()});await saveAccts();
+        await enterAccount(id);if(f.examples.checked)loadDemo();
+        S.settings={...S.settings,name,role:ONB.role,guest:true,demo:!!f.examples.checked,theme:'ivory',onboarded:true,joinedAt:Date.now(),accountEmail:'',gmailAddress:'',coverId:null,avatarId:null};
+        await persistNow();finishEntry(true)}},
+      h('h2',{class:'onb-h'},'Try Daylo'),
+      h('div',{class:'trust'},icon('check'),h('p',null,h('b',null,'No email. No password. '),'Everything you add stays on this phone. Nothing is shared or sent anywhere.')),
+      field('Your first name',h('input',{class:'input',name:'oname',id:'o-name',autocomplete:'given-name',placeholder:'e.g. Sam'})),
+      h('div',{class:'field'},h('span',null,'What do you do?'),h('small',null,'Daylo changes its words and examples to fit you.'),
+        h('div',{class:'role-grid'},ROLES.map(([k,l])=>h('button',{type:'button',class:'role'+(ONB.role===k?' on':''),'aria-pressed':String(ONB.role===k),onclick:()=>{ONB.role=k;ONB.err='';keepVals(ids,renderMain)}},h('b',null,l),h('span',null,ROLE_HINT[k]||''))))),
+      h('label',{class:'confirm-box'},h('input',{type:'checkbox',name:'examples',id:'o-ex',checked:true}),h('span',null,'Fill it with examples so I can see how it works')),
+      errBox(),
+      h('div',{class:'row'},h('button',{class:'btn primary onb-big',type:'submit'},'Start trying'),h('button',{class:'btn ghost',type:'button',onclick:()=>step('start')},'Back')),
+      h('p',{class:'small muted'},'Like it? You can save your space with your email later, and keep everything.')));
+  }
+
   /* create an account */
   if(ONB.step==='create'){
     const ids=['o-name','o-email','o-pw'];
@@ -1888,17 +1926,35 @@ function renderOnboarding(){
     h('p',{class:'onb-tag'},'Your days, gently in order.'),
     h('p',{class:'onb-lead',style:'font-size:15px'},'Your week, your projects and your money, organized in one calm place.'),
     list.length?h('div',{class:'acct-list'},h('div',{class:'small muted',style:'text-align:left'},'On this phone'),list.map(a=>h('button',{class:'acct',type:'button',onclick:async()=>{if(a.hash){ONB.pick=a.email;step('password')}else{await enterAccount(a.email);finishEntry()}}},
-      faceOf(a),h('span',{class:'grow'},h('b',null,a.name||a.email.split('@')[0]),h('span',null,a.email)),h('span',{class:'acct-go','aria-hidden':'true'},'›')))):null,
+      faceOf(a),h('span',{class:'grow'},h('b',null,a.name||a.email.split('@')[0]),h('span',null,a.guest?'Trying Daylo · no email':a.email)),h('span',{class:'acct-go','aria-hidden':'true'},'›')))):null,
     h('div',{class:'onb-actions'},
-      h('button',{class:'btn primary onb-big',onclick:()=>step('create')},'Create an account'),
-      h('button',{class:'btn onb-big',onclick:()=>step('signin')},'Sign in with email'),
-      h('button',{class:'btn ghost onb-big',onclick:async()=>{const em='examples@daylo.app';if(!acct(em)){ACCTS.push({email:em,name:'Example space',createdAt:Date.now()});await saveAccts()}await enterAccount(em);if(!S.campaigns.length){loadDemo();S.settings={...S.settings,name:'Example space',accountEmail:em,onboarded:true,demo:true};await persistNow()}finishEntry()}},'Look around with examples')),
+      h('button',{class:'btn primary onb-big',onclick:()=>step('guest')},'Try it now, just your name'),
+      h('button',{class:'btn onb-big',onclick:()=>step('create')},'Create an account'),
+      h('button',{class:'btn ghost onb-big',onclick:()=>step('signin')},'Sign in with email'),
+    ),
     h('p',{class:'small muted',style:'text-align:center'},'Free while we test. Nothing is ever sent anywhere without you.'));
 }
 
+async function upgradeGuest(email,pw){const old=CUR;const a=acct(old);if(!a)return 'Something went wrong. Reload and try again.';
+  if(acct(email))return 'This email already has an account on this phone.';
+  await persistNow();let st=null;try{st=await IDB.get('state:'+old)}catch{}
+  const gm=/@(gmail|googlemail)\.com$/.test(email);
+  S.settings={...S.settings,guest:false,accountEmail:email,gmailAddress:gm?email:(S.settings.gmailAddress||'')};
+  a.email=email;a.guest=false;await setPassword(a,pw);
+  CUR=email;try{await IDB.set('cur',email)}catch{}
+  await persistNow();try{await IDB.del('state:'+old)}catch{}return null}
+function guestSave(){const a=acct(CUR);if(!a||!a.guest)return null;
+  return h('form',{class:'form',onsubmit:async e=>{e.preventDefault();const f=e.target.elements;const email=f.gemail.value.trim().toLowerCase(),pw=f.gpw.value;
+      if(!isEmail(email)){toast('Add a valid email.');return}if(pw.length<6){toast('Use at least 6 characters for the password.');return}
+      const err=await upgradeGuest(email,pw);if(err){toast(err);return}toast('Saved! Sign in with '+email+' from now on.');renderSide();renderMain()}},
+    h('p',{class:'small muted'},'You’re trying Daylo without an account. Add your email and a password to keep your space. Everything you added stays.'),
+    h('div',{class:'fgrid'},field('Email',h('input',{class:'input',name:'gemail',type:'email',autocomplete:'email',placeholder:'you@email.com'})),field('Password',h('input',{class:'input',name:'gpw',type:'password',autocomplete:'new-password',placeholder:'At least 6 characters'}))),
+    h('div',{class:'row'},h('button',{class:'btn primary',type:'submit'},'Save my space')))}
 function accountPanel(){
   if(!ACCOUNTS_ON)return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Start over')),h('div',{class:'panel-body form'},h('div',{class:'row'},h('button',{class:'btn',onclick:e=>confirmDelete(e.currentTarget,()=>{COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();persist();renderSide();renderMain();toast('Cleared.')})},'Clear everything'))));
   const a=acct(CUR)||{};
+  if(a.guest)return h('section',{class:'panel',id:'account'},h('div',{class:'panel-head'},h('h2',null,'Save your space')),h('div',{class:'panel-body form'},guestSave(),
+    h('div',{class:'row'},h('button',{class:'btn',onclick:()=>signOut('Signed out.')},'Sign out'),h('button',{class:'btn ghost',onclick:e=>confirmDelete(e.currentTarget,async()=>{const em=CUR;try{await IDB.del('state:'+em)}catch{}ACCTS=ACCTS.filter(x=>x.email!==em);await saveAccts();CUR=null;try{await IDB.del('cur')}catch{}COLLS.forEach(k=>S[k]=[]);S.settings={};applyTheme();ONB={step:'start',role:'',err:'',pick:null,show:false};renderSide();renderMain();toast('Your trial space was deleted from this phone.')})},'Delete my trial'))));
   const pwForm=h('form',{class:'row',onsubmit:async e=>{e.preventDefault();const v=e.target.elements.npw.value;if(v.length<6){toast('Use at least 6 characters.');return}await setPassword(a,v);e.target.reset();toast('Password saved');renderMain()}},
     h('input',{class:'input',name:'npw',type:'password',autocomplete:'new-password',placeholder:a.hash?'New password':'Make a password',style:'flex:1;min-width:160px'}),h('button',{class:'btn',type:'submit'},a.hash?'Change password':'Save password'));
   return h('section',{class:'panel'},h('div',{class:'panel-head'},h('h2',null,'Your account')),h('div',{class:'panel-body form'},
@@ -1949,6 +2005,7 @@ function demoData(){
     sent:[]};
 }
 function loadDemo(){const d=demoData();COLLS.forEach(c=>S[c]=d[c]||[]);S.settings=d.settings;persist();schedule()}
+function guestBanner(){if(typeof CUR==='undefined'||!CUR||typeof acct!=='function'||!(acct(CUR)||{}).guest)return null;return h('div',{class:'notice info'},icon('check'),h('div',{class:'grow'},h('p',null,h('b',null,'You’re trying Daylo. '),'No email needed. Everything stays on this phone.'),h('div',{class:'row',style:'margin-top:8px'},h('button',{class:'btn sm primary',onclick:()=>{go('settings');scrollToId('account')}},'Save my space with email'))))}
 function demoBanner(){return h('div',{class:'notice info'},icon('spark'),h('div',{class:'grow'},h('p',null,h('b',null,'This is a demo with example data. '),'Try anything: add a '+V().one.toLowerCase()+', plan your week, write an email. Your changes stay in your browser only.'),
   h('div',{class:'row',style:'margin-top:10px;gap:6px'},h('span',{class:'small muted'},'Try it as:'),ROLES.map(([k,l])=>h('button',{class:'chip',style:role()===k?'background:var(--primary);color:var(--on-primary);border-color:var(--primary)':'',onclick:()=>{S.settings={...S.settings,role:k};persist();schedule()}},l))),
   h('div',{class:'row',style:'margin-top:8px'},h('button',{class:'btn sm primary',onclick:()=>{COLLS.forEach(c=>S[c]=[]);S.settings={demo:false,role:S.settings.role};persist();schedule();toast('Started fresh. Add your first deal.')}},'Start fresh with my own'),h('button',{class:'btn sm',onclick:()=>{loadDemo();toast('Example data restored')}},'Reset examples'))))}
@@ -1972,6 +2029,7 @@ renderAll();
   }
   COLLS.forEach(c=>S.ready[c]=true);
   if(!ACCOUNTS_ON&&!S.settings.onboarded&&(S.campaigns.length||S.tasks.length))S.settings.onboarded=true;
+  if(ACCOUNTS_ON&&!CUR&&/[?&]try\b/.test(location.search))ONB.step='guest';
   S.booted=true;
   C.assets=localAssets;
   await loadImg(S.settings.avatarId);await loadImg(S.settings.coverId);applyTheme();
