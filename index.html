@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Daylo: your week, your projects and your money, organized in one calm place.">
-<meta name="theme-color" content="#F4EDE1">
+<meta name="theme-color" content="#F4F5F0">
 <meta property="og:title" content="Daylo · AI Assistant">
 <meta property="og:description" content="Your days, gently in order. Try it with just your name.">
 <meta property="og:site_name" content="Daylo">
@@ -462,6 +462,44 @@ body.onb-start .btn.primary{background:#FBF7F0!important;color:#6f5a44!important
 body.onb-start .btn{border-color:rgba(255,255,255,.6)!important;background:rgba(255,255,255,.14)!important;color:#fff!important}
 body.onb-start .start-with,body.onb-start .onb-fine{color:rgba(255,255,255,.85)!important}
 body.onb-start .acct{background:rgba(255,255,255,.18)!important;border-color:rgba(255,255,255,.35)!important}
+/* ===== Bright vanilla: Bright White #F4F5F0 base, light golden accents ===== */
+:root[data-theme="ivory"]{--bg:#F4F5F0;--side:#F7F7F3;--card:#FFFEFA;--fg:#4a4036;--muted:#9b8f80;--line:#ECE8DE;--line2:#E3DCCD;
+  --primary:#B8956A;--primary-h:#a7845a;--on-primary:#ffffff;--green:#F6F0E2;--green2:#F1E8D6;--avatar:#F1E7D3;--gold:#B8956A;
+  --glass:rgba(255,254,250,.78);--glass-line:rgba(255,255,255,.95);--panel:rgba(255,254,250,.92);
+  --blob-a:#F6E9CF;--blob-b:#F3EBDD;--blob-c:#EFDDBA;--dot:#e2d6c0}
+:root[data-theme="ivory"] .blobs i{opacity:.55}
+:root[data-theme="ivory"] .b-hero{background:linear-gradient(150deg,#FFFDF7 0%,#FBF3E3 50%,#F4E4C6 100%)!important;box-shadow:0 14px 34px rgba(184,149,106,.16),0 0 0 1px rgba(232,214,180,.55) inset}
+:root[data-theme="ivory"] .b-hero:not(.has-cover):after{border-color:rgba(214,186,138,.35)}
+:root[data-theme="ivory"] .b-greet em{color:#B08A55}
+:root[data-theme="ivory"] .b-eb{color:#B8956A}
+:root[data-theme="ivory"] .b-av{border-color:#fff;background:#F6EBD5}
+:root[data-theme="ivory"] .b-next{background:rgba(255,255,255,.8)}
+:root[data-theme="ivory"] .b-tm{background:#B8956A}
+:root[data-theme="ivory"] .b-bar{background:#EFE3CB}:root[data-theme="ivory"] .b-bar i{background:#C9A46F}
+:root[data-theme="ivory"] .b-seg button{background:#FFFEFA;color:#9b8f80;box-shadow:0 0 0 1px #ECE8DE inset}
+:root[data-theme="ivory"] .b-seg button.on{background:#B8956A;color:#fff;box-shadow:none}
+:root[data-theme="ivory"] .b-card{background:#FFFEFA;box-shadow:0 1px 0 #ECE8DE,0 0 0 1px #F0ECE3 inset}
+:root[data-theme="ivory"] .b-pill{background:#F6EFE0;color:#8f7352}
+@media (max-width:760px){
+  :root[data-theme="ivory"] .tabbar{background:rgba(255,254,250,.95)!important;box-shadow:0 10px 26px rgba(184,149,106,.16),0 0 0 1px #F0EADF inset!important}
+  :root[data-theme="ivory"] .tab[aria-current="page"]{background:#F6EBD5!important}
+  :root[data-theme="ivory"] .tab.add{background:#B8956A!important}
+}
+/* welcome: bright vanilla with a soft golden glow */
+body.onb-start{background:radial-gradient(90% 60% at 50% 18%,#FBF1DC 0%,transparent 70%),radial-gradient(80% 50% at 50% 100%,#F5E9D2 0%,transparent 70%),#F4F5F0 !important;color:#4a4036!important}
+body.onb-start .ring-logo{color:#B8956A}
+body.onb-start .ring-logo b{color:#4a4036}
+body.onb-start .onb-tag{color:#4a4036!important}
+body.onb-start .start-with,body.onb-start .onb-fine{color:#a89a88!important}
+body.onb-start .btn.primary{background:#B8956A!important;color:#fff!important;border-color:#B8956A!important}
+body.onb-start .btn{background:#FFFEFA!important;color:#4a4036!important;border-color:#E6DCCB!important}
+body.onb-start .acct{background:#FFFEFA!important;border-color:#ECE4D6!important;color:#4a4036!important}
+body.onb-start .acct .grow span,body.onb-start .acct-go{color:#9b8f80!important}
+body.onb-start .acct-face{background:#F6EBD5!important;color:#4a4036!important}
+body.onb-start .blobs .b1{background:#F7E7C6!important;opacity:.6!important}
+body.onb-start .blobs .b2{background:#F1E2C8!important;opacity:.5!important}
+body.onb-start .blobs .b3{background:#FFF8EA!important;opacity:.7!important}
+:root[data-theme="ivory"] .b-th{color:#a8834f}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
@@ -964,7 +1002,7 @@ function renderTabbar(){
     tab('campaigns','campaigns',V().many,0,()=>{S.campStages=null;go('campaigns')}),tab('more','more','More',c.payments,moreMenu));
 }
 /* ---------- themes ---------- */
-const THEMES=[['ivory','Ivory','Soft sand and almond','#F4EDE1','#DDD1C3','#AA8C6B'],['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
+const THEMES=[['ivory','Ivory','Bright vanilla and gold','#F4F5F0','#F6E9CF','#B8956A'],['colorful','Colorful','The floating pastel look','#f3f3f1','#f2c9cf','#c9dcbc'],['grey','Grey','Calm and neutral','#ececea','#d6d6d3','#cdd1d4'],['night','Night','Dark, easy on the eyes','#111111','#4a2a30','#2c3d28'],['beige','Beige','Warm and soft','#f3ede3','#ecd3b4','#e3d5bd'],['sage','Sage','Fresh green','#eef1eb','#c7dbb9','#d9e6cc'],['blush','Blush','Soft pink','#f6efef','#f1c4cc','#f3d6da']];
 function applyTheme(t){const v=t||S.settings.theme||'ivory';const r=document.documentElement;if(v&&THEMES.some(x=>x[0]===v)){if(r.dataset.theme!==v)r.dataset.theme=v}else if(r.dataset.theme)delete r.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');if(m){const th=THEMES.find(x=>x[0]===v);m.content=th?th[3]:'#f3f3f1'}}
 function themePicker(cur,onPick){return h('div',{class:'theme-grid',role:'radiogroup','aria-label':'Theme'},THEMES.map(([k,l,d,bg,a,b])=>h('button',{type:'button',role:'radio','aria-checked':String(cur===k),class:'swatch'+(cur===k?' on':''),onclick:()=>onPick(k)},h('i',{style:'background:'+bg+';--a:'+a+';--b:'+b}),h('b',null,l),h('span',null,d))))}
 function photoRow(){if(!C.assets)return null;const st=S.settings,av=blobUrl(st.avatarId),cv=blobUrl(st.coverId);
@@ -1116,7 +1154,7 @@ function todayHero(greet){
   const upSub=nextIt?('Up next'+(nextIt.k==='routine'?' · routine':nextIt.x.campaignId?' · '+(S.campaigns.find(c=>c.id===nextIt.x.campaignId)||{}).brand:'')):later?'Up next · '+fmtDay(later.due):'Tap + to add something';
   const upOpen=()=>nextIt?(nextIt.k==='routine'?openRoutine(nextIt.x):openTask(nextIt.x)):later?openTask(later):quickAdd();
   const tab=S.todayTab||'today';
-  const PAL=[['#EBE1D4','#DDD1C3'],['#DDD1C3','#B7A38B'],['#E6D7C3','#AA8C6B'],['#EFE6DA','#C9B8A3'],['#E2D5C5','#B7A38B']];
+  const PAL=[['#FBF1DE','#EBD3A8'],['#F7EEDF','#DCC4A0'],['#FCF4E4','#E2C08C'],['#F6EFE2','#D7BFA0'],['#FAF0DB','#E6CC9C']];
   const thumb=(k,ic)=>{const p=PAL.at(Math.abs([...String(k)].reduce((a,c)=>a+c.charCodeAt(0),0))%PAL.length);return h('div',{class:'b-th',style:'background:linear-gradient(135deg,'+p[0]+','+p[1]+')'},icon(ic))};
   const card=(key,ic,t1,t2,pill,pcls,fn)=>h('button',{class:'b-card',onclick:fn},thumb(key,ic),h('div',{class:'b-txt'},h('div',{class:'b-t1'},t1),h('div',{class:'b-t2'},t2)),pill?h('span',{class:'b-pill'+(pcls?' '+pcls:'')},pill):null);
   let list=[];
