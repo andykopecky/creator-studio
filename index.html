@@ -298,6 +298,21 @@ body.onb-start .blobs .b1{background:#a3907f;opacity:.55;width:380px;height:380p
 body.onb-start .blobs .b2{background:#3b322b;opacity:.6;width:420px;height:380px}
 body.onb-start .blobs .b3{background:#c4a886;opacity:.3;width:280px;height:280px}
 .fy-ico,.orb i{animation:none!important}
+/* Today, simplified: greeting, moving icons, compact progress */
+.hero{display:flex!important;flex-direction:column;align-items:stretch;gap:20px!important}
+.foryou{padding:0!important}
+.fy-grid{margin-left:0!important;margin-top:0!important;max-width:360px!important}
+.fy:not(.hot) .fy-ico{animation:bob 4.2s ease-in-out infinite!important;animation-delay:calc(var(--i) * -.8s)!important}
+.prog{display:flex;align-items:center;gap:20px}
+.ring-wrap{position:relative;width:132px;height:132px;border:0;background:none;padding:0;cursor:pointer;flex:none;color:var(--fg)}
+.ring-wrap .ring{width:132px!important;height:132px!important;margin:0!important}
+.ring-pct{position:absolute;inset:0;display:grid;place-items:center;font:300 26px/1 var(--f-body)!important;letter-spacing:-.02em!important}
+.prog-v{font:300 30px/1.1 var(--f-display);margin-top:4px}
+.cover-img{height:115px!important}
+@media (max-width:760px){.cover-img{height:80px!important}}
+@media (max-width:760px){.cover-actions .btn:not(:first-child){display:none!important}.cover-actions .btn{font-size:12px;padding:5px 10px}}
+.stats .stat .small,.stats .stat .go{display:none!important}
+.stats .stat{min-height:0!important}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Themes people pick at first open or in Settings. "colorful" is the default floating look. */
 :root[data-theme="grey"]{--bg:#ececea;--side:#f2f2f0;--blob-a:#d6d6d3;--blob-b:#cdd1d4;--blob-c:#e2e2df;--cv-a:#dedede;--cv-b:#d6d9db;--gift:#e9e9e7;--gift-fg:#55554f;color-scheme:light}
@@ -921,8 +936,6 @@ function pageToday(){
     todayHero(greet),
     guestBanner()||(S.settings.demo?demoBanner():null),
     !S.campaigns.length&&!S.tasks.length?welcomeCard():null,
-    forToday(),
-    quickCards(),
     h('div',{class:'stats'},
       stat('Open '+V().many.toLowerCase(),open.length,'Lead, pitched or negotiating',()=>{S.campFilter='all';S.campStages='open';go('campaigns')}),
       stat('In production',active.length,'Booked or being created',()=>{S.campFilter='all';S.campStages='production';go('campaigns')}),
@@ -946,7 +959,7 @@ function pageToday(){
 function hs(tag,attrs,...kids){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);if(attrs)for(const[k,v]of Object.entries(attrs)){if(v==null)continue;el.setAttribute(k==='class'?'class':k,v)}for(const k of kids.flat(Infinity)){if(k!=null&&k!==false)el.append(k)}return el}
 function dotRing(p){
   const pts=[],R0=94,c=100;
-  for(let y=-R0;y<=R0;y+=8)for(let x=-R0;x<=R0;x+=8){const d=Math.hypot(x,y);if(d<=R0&&Math.abs(d-48)>7)pts.push([c+x,c+y,d])}
+  for(let y=-R0;y<=R0;y+=8)for(let x=-R0;x<=R0;x+=8){const d=Math.hypot(x,y);if(d<=R0&&d>58)pts.push([c+x,c+y,d])}
   const N=36,on=Math.round(Math.max(0,Math.min(1,p))*N);
   return hs('svg',{class:'ring',viewBox:'0 0 200 200',role:'img','aria-label':Math.round(p*100)+'% of this week done'},
     hs('g',{class:'ring-bg'},pts.map(([x,y,d])=>hs('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:(1.25-d/R0*0.55).toFixed(2),fill:'var(--dot)',style:'--d:'+Math.round(d*7)+'ms'}))),
@@ -963,15 +976,12 @@ function todayHero(greet){
   return h('section',{class:'hero'},
     S.settings.coverId?null:h('div',{class:'hero-top'},h('div',null,h('div',{class:'eyebrow'},new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})),h('h1',{class:'greet',style:'margin-top:10px'},h('span',{class:'greet-a'},(()=>{const hr=new Date().getHours();return hr<12?'Good morning,':hr<18?'Good afternoon,':'Good evening,'})()),h('br'),h('span',{class:'greet-b'},(first||'Friend')+'.')),C.assets&&!S.settings.coverId?h('button',{class:'btn sm ghost',style:'margin-top:10px;padding-left:0',onclick:()=>pickImage('cover')},icon('plus'),'Add a cover photo'):null),
       h('div',{class:'row',style:'flex-wrap:nowrap'},h('button',{class:'hero-me',title:C.assets?'Change your photo':'You',onclick:()=>C.assets?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your photo'}):initials(myName()||'You')))),
-    dotRing(p),
-    h('div',null,h('div',{class:'big tnum'},Math.round(p*100)+'%'),h('div',{class:'big-sub'},wk.length?'of this week done · '+dn+' of '+wk.length+' tasks':'Nothing planned this week yet'),
-      (()=>{const owed=S.invoices.filter(i=>i.status==='Sent');const card=(ic,k,v,fn,st)=>h('button',{onclick:fn},h('div',{class:'k'},k),h('div',{class:'v',style:st||''},v));
-        const el=h('div',{class:'mini carousel'},
-          card('schedule','Current week','Week '+wkNo,()=>{S.schedView='week';go('schedule');scrollToId('week')}),
-          card('alert','Late',late.length?late.length+(late.length===1?' task':' tasks'):'Nothing late',()=>{S.schedView='day';S.dayPick=null;go('schedule')},late.length?'color:var(--red)':''),
-          card('today','Next deadline'+(next?' · '+fmtDay(next.due):''),next?next.title:'Add a task',()=>next?openTask(next):openTask(null)),
-          card('payments','Waiting to be paid',owed.length?owed.length+(owed.length===1?' invoice':' invoices'):'All paid',()=>go('payments')));
-        startCarousel(el);return el})()));
+    forToday(),
+    h('div',{class:'prog'},
+      h('button',{class:'ring-wrap','aria-label':'Open this week',onclick:()=>{S.schedView='week';go('schedule')}},dotRing(p),h('div',{class:'big ring-pct tnum'},Math.round(p*100)+'%')),
+      h('div',{class:'prog-txt'},h('div',{class:'eyebrow'},'This week'),
+        h('div',{class:'prog-v'},wk.length?dn+' of '+wk.length+' done':'Nothing planned yet'),
+        late.length?h('button',{class:'spill late',style:'margin-top:8px;border:0;cursor:pointer',onclick:()=>{S.schedView='day';S.dayPick=null;go('schedule')}},late.length+' late'):null)));
 }
 let carT=null,carTouch=0;
 function startCarousel(el){clearInterval(carT);if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1019,11 +1029,11 @@ function coverBlock(title){
   if(S.reposition&&cv){const r=h('input',{type:'range',min:'0',max:'100',value:String(st.coverY??50),id:'cover-y','aria-label':'Move photo up or down',oninput:e=>{img.style.backgroundPosition='center '+e.target.value+'%'}});
     posBox=h('div',{class:'pos'},h('span',null,'Slide to move'),r,h('button',{class:'btn sm primary',onclick:async()=>{S.reposition=false;await attempt(()=>saveSettings({coverY:Number(r.value)}),'Cover position saved')}},'Done'))}
   if(can||posBox)img.append(...[posBox,can&&!S.reposition?h('div',{class:'cover-actions'},
-      h('button',{class:'btn sm glass',onclick:()=>pickImage('cover')},cv?'Change cover':'Add cover photo'),
+      h('button',{class:'btn sm glass',onclick:()=>pickImage('cover')},cv?'Change':'Add cover photo'),
       cv?h('button',{class:'btn sm glass',onclick:()=>{S.reposition=true;renderMain()}},'Reposition'):null,
       cv?h('button',{class:'btn sm glass',onclick:()=>removeImage('cover')},'Remove'):null):null].filter(Boolean));
   const me=h('button',{class:'me',title:can?(av?'Change profile photo':'Add profile photo'):'Profile',onclick:()=>can?pickImage('avatar'):null},av?h('img',{src:av,alt:'Your profile photo'}):initials(myName()||'You'));
-  return h('section',{class:'cover'},img,h('div',{class:'cover-id'},me,h('div',{class:'who'},h('h1',null,title),h('p',null,new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})+(can&&!av?' · tap the circle to add your photo':'')))));
+  return h('section',{class:'cover'},img,h('div',{class:'cover-id'},me,h('div',{class:'who'},h('div',{class:'eyebrow'},new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})),h('h1',{class:'greet',style:'margin-top:8px'},h('span',{class:'greet-a'},title.split(', ')[0]+','),h('br'),h('span',{class:'greet-b'},(title.split(', ')[1]||'Friend')+'.')))));
 }
 function stat(label,v,sub,onclick){if(!onclick)return h('div',{class:'panel stat'},h('div',{class:'label'},label),h('div',{class:'v tnum'},v),h('div',{class:'small muted'},sub));
   return h('button',{class:'panel stat stat-btn',type:'button',onclick},h('div',{class:'label'},label),h('div',{class:'v tnum'},v),h('div',{class:'small muted'},sub),h('span',{class:'go'},'See them ›'))}
