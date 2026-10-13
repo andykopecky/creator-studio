@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Daylo: your week, your projects and your money, organized in one calm place.">
 <meta name="theme-color" content="#f3f3f1">
+<meta property="og:title" content="Daylo · AI Assistant">
+<meta property="og:description" content="Your days, gently in order. Try it with just your name.">
+<meta property="og:site_name" content="Daylo">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Daylo">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -345,6 +348,7 @@ body.onb-start .blobs .b3{background:#c4a886;opacity:.3;width:280px;height:280px
 .acct-face.big{width:96px;height:96px;font-size:38px;margin:0 auto}
 .pw-row{display:flex;gap:8px;align-items:center}.pw-row .input{flex:1;min-width:0}
 .trust{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:var(--green)}.trust p{margin:0;font-size:13.5px}.trust .ico{width:18px;height:18px;margin-top:2px;color:var(--ok)}
+.share-name{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:4px}.share-name b{font:400 26px var(--f-display);letter-spacing:.02em}.share-name span{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .share-qr{width:min(78vw,300px);height:auto;border-radius:24px;image-rendering:pixelated;box-shadow:0 0 0 1px var(--line)}
 .onb .side,.onb .tabbar{display:none!important}
 .onb .app{grid-template-rows:minmax(0,1fr)!important}
@@ -1849,11 +1853,11 @@ const TRY_URL='https://andykopecky.github.io/creator-studio/?try=1';
 const TRY_QR='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAIAAACZDnMXAAAHLklEQVR4nO3dMW4kNxCG0V8L382B0z2mUwc+mAJBibONlgJoVHWRo/fCxaCnt0f4QIBs8u3z4z3A9/Zj+gaAeUIACAEgBECEAIgQABECIEIARAiACAEQIQAiBECEAIgQABECIEIARAiACAEQIQAiBECEAIgQABECIMkfVRf6+defVZdq9fc///7231f3v/r8rqrr715n6nfp/n9NXec0VX+fRgSAEABCAEQIgAgBECEAIgRACtcRrFTNc+7anQc+bb56dZ2qdRBVz2d1nap5+O71Hbtu+XveZUQACAEgBECEAIgQABECIEIA5IF1BCtV86Ld+wXsfm/3fG/39XefZ/d7/lX3M7XfxK6pdQpGBIAQAEIARAiACAEQIQAiBEAG1xG8qqr1Bbfsq7/SvV5g19T8/C2MCAAhAIQAiBAAEQIgQgBECIBYR/BL9/x/93kEp+23f9p6CusIvmZEAAgBIARAhACIEAARAiBCAGRwHcFp87re///6OqvPd6+PqNK9/uK0v+ddRgSAEABCAEQIgAgBECEAIgRAHlhHcPv8/NQ+Ard/vspp6xRu/3teMSIAhAAQAiBCAEQIgAgBECEAUriO4Pb3sauctg//1LkMVfdTZfd5fre/ZyMCQAgAIQAiBECEAIgQABECIMnb58d76xdMvSfP/1P1nLuvs3LaOoWp8yZ2GREAQgAIARAhACIEQIQAiBAAKdyP4LT52123nAtw+zqLqX0WVrqf2+71p34vIwJACAAhACIEQIQAiBAAEQIghesIVrr3w79l/nzXafs4TK13WH1+6r39V/17MyIAhAAQAiBCAEQIgAgBECEAUniuwdT79reY+n+ddh7BLfs4dF9n9/orzjUAyggBIASAEAARAiBCAEQIgBTuR3DL/POu097Dn9pHoMrUuonTnufudbqfmxEBIASAEAARAiBCAEQIgAgBkAf2I9h1+/v5r7quYfd+pvYdqHLac9j93l1GBIAQAEIARAiACAEQIQAiBEAO3I+gSvd8bNXnb5lvP209xdQ5BbesL9hlRAAIASAEQIQAiBAAEQIgQgDkwP0Idp02b1xlav/87uvfsi/DlKn7NCIAhAAQAiBCAEQIgAgBECEAUrgfwUr3PHb3++Hd19m1e/1b5u2n9heYus7K1D4URgSAEABCAEQIgAgBECEAIgRAHlhHsLI7Lzp1LkDV+oWVW847qPq9qtz+fE5jRAAIASAEQIQAiBAAEQIgQgCk8FyDlan51Vv24b9lPnzK1Dz8LftT2I8AKCMEgBAAQgBECIAIARAhAHLRuQYrVfPwK7fMz98+/191XkPV73XaOQ7dv68RASAEgBAAEQIgQgBECIAIAZAH1hFMzfN3n18wdf/dbtmvYddp8/an/e5GBIAQAEIARAiACAEQIQAiBEAeONeg29R74N3zwFP7KdxyDsXU+Q5Tz7P7/2tEAAgBIARAhACIEAARAiBCAKRwHcHU/PPKafP5Vd875ZZ5++7vPW2fAusIgDJCAAgBIARAhACIEAARAiCF5xp074d/2v4Cr7o+Ylf3/gi739v9u3T/nTjXABgjBIAQAEIARAiACAEQIQBSuI5gpXueueq98dvXF6xU3f9pz6H73IepdS67169iRAAIASAEQIQAiBAAEQIgQgDkgXUEK1PzzN3Xn5rHXul+T/609QWnmVrnssuIABACQAiACAEQIQAiBECEAEjhOoLuec6pc+lXTnsPf9ernkdwy/kapzEiAIQAEAIgQgBECIAIARAhAJK8fX68t35B1fz/1Dz21Hn1u7rnt295DitT6wuq2I8AaCcEgBAAQgBECIAIARAhAPLAfgQrU/v5V32++/6nzk047TyIW/azOG2/jF1GBIAQAEIARAiACAEQIQAiBEAe2I/gFrfsUzB1P1Xz/7es19g1te+D/QiAMkIACAEgBECEAIgQABECIIP7EUypmtedmldfmXrP/7TnUOX2/RF2GREAQgAIARAhACIEQIQAiBAAKVxHsNK9H/vK1PvqVZ+fuv/T3vOvuv7Ue/67ptZZGBEAQgAIARAhACIEQIQAiBAAKTzX4FXfw5/aj2Dq81VO2+f/tPf/p9YprBgRAEIACAEQIQAiBECEAIgQAHlgP4Jb7M4zT83nd8+Td7+3P3VewO3nL3Q/NyMCQAgAIQAiBECEAIgQABECINYR/DI1b3zLfgGrz3evOzhtPr/qfqZ+9xUjAkAIACEAIgRAhACIEAARAiCD6whO29e9e1596v9b9b23rLOoWu/QvT5iV/f1jQgAIQCEAIgQABECIEIARAiAPLCO4LRz6VdumW/v3v//u5k6T2H3OivONQDKCAEgBIAQABECIEIARAiAJG+fH+/T9wAMMyIAhAAQAiBCAEQIgAgBECEAIgRAhACIEAARAiBCAEQIgAgBECEAIgRAhACIEAARAiBCAEQIgAgBECEAkvwHdYzlXNzbim0AAAAASUVORK5CYII=';
 function shareDaylo(){
   openDrawer('Share Daylo',h('div',{class:'form',style:'align-items:center;text-align:center'},
-    h('p',{class:'muted'},'Ask your friend to point their phone camera here. Daylo opens on their phone, and they can try it with just their name.'),
+    h('p',{class:'muted'},'Scan with your phone camera.'),
     h('img',{src:TRY_QR,alt:'QR code to try Daylo',class:'share-qr'}),
-    h('p',{class:'small muted',style:'word-break:break-all'},TRY_URL),
+    h('div',{class:'share-name'},h('b',null,'Daylo'),h('span',null,'AI Assistant')),
     h('div',{class:'row',style:'justify-content:center'},
-      navigator.share?h('button',{class:'btn primary',onclick:()=>navigator.share({title:'Daylo',text:'Try Daylo, my app for keeping your days in order:',url:TRY_URL}).catch(()=>{})},icon('send'),'Send the link'):null,
+      navigator.share?h('button',{class:'btn primary',onclick:()=>navigator.share({title:'Daylo',text:'Daylo AI Assistant: your days, gently in order.',url:TRY_URL}).catch(()=>{})},icon('send'),'Send the link'):null,
       h('button',{class:'btn',onclick:async()=>{try{await navigator.clipboard.writeText(TRY_URL);toast('Link copied')}catch{toast(TRY_URL)}}},'Copy link'))),
     [h('button',{class:'btn',onclick:closeDrawer},'Close')]);
 }
