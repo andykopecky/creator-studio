@@ -1,6 +1,9 @@
 # Daylo
 
-Brand deals, schedule, payments and contacts for creative freelancers.
-Installable web app: open the site and use "Add to Home Screen" / "Install app".
+The private studio for creators and creative professionals.
 
-Your data stays on your own device. This repository only holds the app code.
+Live at https://dayloapp.github.io
+
+© 2026 Daylo. All rights reserved.
+
+This repository only hosts the published app. The code, design, name and brand are not open source and are not licensed for copying, reuse, modification or redistribution. No license is granted by making these files publicly viewable.
