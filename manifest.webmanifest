@@ -1,6 +1,6 @@
 {
-  "name": "Daylo",
-  "short_name": "Daylo",
+  "name": "Daylo Test",
+  "short_name": "Daylo Test",
   "description": "Your week, your projects and your money, organized in one calm place.",
   "start_url": "./#today",
   "scope": "./",
